@@ -112,9 +112,9 @@ export default function SignUp() {
         value={password}
       />
       <Input
-        name="comfirmPassword"
-        label="comfirmPassword"
-        type="password"
+        name='comfirmPassword'
+        label='Comfirm Password'
+        type='password'
         onChange={handleChange}
         onBlur={handleBlur}
         value={comfirmPassword}
