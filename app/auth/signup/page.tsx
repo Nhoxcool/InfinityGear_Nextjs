@@ -105,7 +105,7 @@ export default function SignUp() {
       />
       <Input
         name='comfirmPassword'
-        label='comfirmPassword'
+        label='Comfirm Password'
         type='password'
         onChange={handleChange}
         onBlur={handleBlur}
