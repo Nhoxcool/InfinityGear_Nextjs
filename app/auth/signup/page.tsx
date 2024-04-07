@@ -61,8 +61,9 @@ export default function SignUp() {
   } = useFormik({
     initialValues: { name: "", email: "", password: "", comfirmPassword: "" },
     validationSchema,
-    onSubmit: (values) => {
-      fetch("/api/users", {
+    onSubmit: async (values, action) => {
+      action.setSubmitting(true);
+      await fetch("/api/users", {
         method: "POST",
         body: JSON.stringify(values),
       }).then(async (res) => {
@@ -70,6 +71,7 @@ export default function SignUp() {
           const result = await res.json();
           console.log(result);
         }
+        action.setSubmitting(true);
       });
     },
   });
@@ -119,7 +121,11 @@ export default function SignUp() {
         onBlur={handleBlur}
         value={comfirmPassword}
       />
-      <Button type="submit" className="w-full bg-blue-600">
+      <Button
+        disabled={isSubmitting}
+        type="submit"
+        className="w-full bg-blue-600"
+      >
         Sign up
       </Button>
       <div className="">
