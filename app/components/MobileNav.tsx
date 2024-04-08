@@ -37,12 +37,12 @@ interface Props {
 export const CategoryItems = [
   {
     href: '/PC',
-    icon: <ComputerDesktopIcon className='h-4 w-4' />,
+    icon: <ComputerDesktopIcon className="h-4 w-4" />,
     label: 'PC',
   },
   {
     href: '/Laptop',
-    icon: <CpuChipIcon className='h-4 w-4' />,
+    icon: <CpuChipIcon className="h-4 w-4" />,
     label: 'Laptop',
   },
 ];
@@ -58,21 +58,22 @@ export function MobileNav({ open, onClose, menuItems }: Props) {
   return (
     <>
       <Drawer open={open} onClose={onClose}>
-        <div className='mb-2 flex items-center justify-between p-4 z-50'>
-          <div className='flex flex-row items-center'>
+        <div className="mb-2 flex items-center justify-between p-4 z-50">
+          <div className="flex flex-row items-center">
             <Image
               width={50}
               height={50}
-              src='/image/logo_only.png'
-              alt='logo image'
+              src="/image/logo_only.png"
+              alt="logo image"
             />
-            <Typography variant='h5' color='blue-gray'>
+            <Typography variant="h5" color="blue-gray">
+
               InfinityGear
             </Typography>
           </div>
 
-          <IconButton variant='text' color='blue-gray' onClick={onClose}>
-            <XMarkIcon strokeWidth={2} className='h-5 w-5' />
+          <IconButton variant="text" color="blue-gray" onClick={onClose}>
+            <XMarkIcon strokeWidth={2} className="h-5 w-5" />
           </IconButton>
         </div>
         <List>
@@ -115,7 +116,9 @@ export function MobileNav({ open, onClose, menuItems }: Props) {
                 className='border-b-0 p-3'
               >
                 <ListItemPrefix>
-                  <ArchiveBoxIcon className='h-5 w-5' />
+
+                  <ArchiveBoxIcon className="h-5 w-5" />
+
                 </ListItemPrefix>
                 <Typography color='blue-gray' className='mr-auto font-normal'>
                   Product Category
@@ -147,7 +150,8 @@ export function MobileNav({ open, onClose, menuItems }: Props) {
               Sign Out
             </ListItem>
           ) : (
-            <div className='flex items-cente flex-col mt-10 gap-10'>
+            <div className="flex items-cente flex-col mt-10 gap-10">
+
               <Link
                 className='px-4 py-1 flex-1 text-center'
                 href='/auth/signin'
@@ -155,8 +159,9 @@ export function MobileNav({ open, onClose, menuItems }: Props) {
                 Sign in
               </Link>
               <Link
-                className='bg-blue-500 text-white px-4 py-1 rounded flex-1 text-center focus:bg-blue-700'
-                href='/auth/signup'
+                className="bg-blue-500 text-white px-4 py-1 rounded flex-1 text-center focus:bg-blue-700"
+                href="/auth/signup"
+
               >
                 Sign up
               </Link>
