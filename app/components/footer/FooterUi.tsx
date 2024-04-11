@@ -68,6 +68,7 @@ export function FooterUi() {
         <div className="flex pt-5 gap-6 flex-row-reverse justify-center md:justify-start">
           <Typography as="a" href="#">
             <Image
+              className=" rounded-sm"
               width={40}
               height={40}
               src="/image/linkedin.png"
