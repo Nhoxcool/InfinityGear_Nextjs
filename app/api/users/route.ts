@@ -11,6 +11,5 @@ export const POST = async (req: Request) => {
        email: body.email,
        password: body.password,
     });
-
     return NextResponse.json(newUser);
 }
