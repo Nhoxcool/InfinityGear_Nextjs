@@ -25,8 +25,8 @@ export const POST = async (req: Request) => {
     host: "sandbox.smtp.mailtrap.io",
     port: 2525,
     auth: {
-      user: "fce70f504bc08a",
-      pass: "89c27ee828139c",
+      user: process.env.MAIL_USERNAME,
+      pass: process.env.MAIL_PASSWORD,
     },
   });
 

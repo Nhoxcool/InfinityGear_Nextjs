@@ -8,6 +8,7 @@ import * as yup from "yup";
 import { filterFormikErrors } from "@/app/utils/formikHelpers";
 import Image from "next/image";
 import { toast } from "react-toastify";
+import Link from "next/link";
 
 const validationSchema = yup.object().shape({
   name: yup
@@ -81,6 +82,11 @@ export default function SignUp() {
 
   const { email, name, password, comfirmPassword } = values;
 
+  type valueKeys = keyof typeof values;
+  const error = (name: valueKeys) => {
+    return errors[name] && touched[name] ? true : false;
+  };
+
   return (
     <AuthFormContainer title="Create New Account" onSubmit={handleSubmit}>
       <div className="flex justify-center items-center">
@@ -98,6 +104,7 @@ export default function SignUp() {
         onBlur={handleBlur}
         onChange={handleChange}
         value={name}
+        error={error("name")}
       />
       <Input
         name="email"
@@ -105,6 +112,7 @@ export default function SignUp() {
         onBlur={handleBlur}
         onChange={handleChange}
         value={email}
+        error={error("email")}
       />
       <Input
         name="password"
@@ -113,6 +121,7 @@ export default function SignUp() {
         onChange={handleChange}
         onBlur={handleBlur}
         value={password}
+        error={error("password")}
       />
       <Input
         name="comfirmPassword"
@@ -121,12 +130,19 @@ export default function SignUp() {
         onChange={handleChange}
         onBlur={handleBlur}
         value={comfirmPassword}
+        error={error("comfirmPassword")}
       />
-      <Button
-        disabled={isSubmitting}
-        type="submit"
-        className="w-full bg-blue-600"
-      >
+
+      <div className="flex items-center justify-between">
+        <p>
+          Already have an account!{" "}
+          <Link href="/auth/signin" className="text-blue-700 underline">
+            Login now
+          </Link>
+        </p>
+      </div>
+
+      <Button disabled={isSubmitting} type="submit" className="w-full ">
         Sign up
       </Button>
       <div className="">
