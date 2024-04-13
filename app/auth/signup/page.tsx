@@ -7,6 +7,7 @@ import { useFormik } from "formik";
 import * as yup from "yup";
 import { filterFormikErrors } from "@/app/utils/formikHelpers";
 import Image from "next/image";
+import { toast } from "react-toastify";
 
 const validationSchema = yup.object().shape({
   name: yup
@@ -68,8 +69,8 @@ export default function SignUp() {
         body: JSON.stringify(values),
       }).then(async (res) => {
         if (res.ok) {
-          const result = await res.json();
-          console.log(result);
+          const { message } = (await res.json()) as { message: string };
+          toast.success(message);
         }
         action.setSubmitting(true);
       });

@@ -1,6 +1,8 @@
 "use client";
+
 import { notFound, useRouter } from "next/navigation";
 import React, { useEffect } from "react";
+import { toast } from "react-toastify";
 
 interface Props {
   searchParams: { token: string; userId: string };
@@ -10,7 +12,8 @@ export default function Verify(props: Props) {
   const { token, userId } = props.searchParams;
   const router = useRouter();
 
-  //verify the token and userId
+  // verify the token and userId
+
   useEffect(() => {
     fetch("/api/users/verify", {
       method: "POST",
@@ -18,21 +21,21 @@ export default function Verify(props: Props) {
     }).then(async (res) => {
       const apiRes = await res.json();
 
-      const { message, error } = apiRes as { message: string; error: string };
+      const { error, message } = apiRes as { message: string; error: string };
 
       if (res.ok) {
-        console.log(message);
-        router.replace("/");
+        toast.success(message);
       }
 
       if (!res.ok && error) {
-        console.log(error);
+        toast.error(error);
       }
+
+      router.replace("/");
     });
   }, []);
 
   if (!token || !userId) return notFound();
-
   return (
     <div className="text-3xl opacity-70 text-center p-5 animate-pulse">
       Please wait...
