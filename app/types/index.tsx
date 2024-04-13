@@ -10,6 +10,11 @@ export interface NewUserRequest {
   password: string;
 }
 
+export interface SignInCredentials {
+  email: string;
+  password: string;
+}
+
 export interface EmailVerifyRequest {
   token: string;
   userId: string;

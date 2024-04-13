@@ -1,8 +1,8 @@
-import mongoose from 'mongoose';
+import mongoose from "mongoose";
 
 let connection: typeof mongoose;
 
-const url = 'mongodb://127.0.0.1:27017/Infinity_Gear';
+const url = process.env.DB_URL as string;
 const startDb = async () => {
   try {
     if (!connection) {
