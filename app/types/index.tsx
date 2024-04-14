@@ -19,3 +19,7 @@ export interface EmailVerifyRequest {
   token: string;
   userId: string;
 }
+
+export interface ForgetPassword {
+  email: string;
+}
