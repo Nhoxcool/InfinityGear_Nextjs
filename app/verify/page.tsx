@@ -13,7 +13,7 @@ export default function Verify(props: Props) {
   const router = useRouter();
 
   // verify the token and userId
-
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   useEffect(() => {
     fetch("/api/users/verify", {
       method: "POST",
@@ -24,6 +24,7 @@ export default function Verify(props: Props) {
       const { error, message } = apiRes as { message: string; error: string };
 
       if (res.ok) {
+        // success
         toast.success(message);
       }
 

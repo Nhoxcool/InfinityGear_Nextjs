@@ -1,6 +1,10 @@
 {
   "compilerOptions": {
-    "lib": ["dom", "dom.iterable", "esnext"],
+    "lib": [
+      "dom",
+      "dom.iterable",
+      "esnext"
+    ],
     "allowJs": true,
     "skipLibCheck": true,
     "strict": true,
@@ -18,14 +22,34 @@
       }
     ],
     "paths": {
-      "@/*": ["./*"],
-      "@app/*":["./app/*"],
-      "@hooks/*": ["./app/hooks/*"],
-      "@components/*":["./app/components/*"],
-      "@lib/*": ["./app/lib/*"],
-      "@models/*": ["./app/models/*"],
-    }
+      "@/*": [
+        "./*"
+      ],
+      "@app/*": [
+        "./app/*"
+      ],
+      "@hooks/*": [
+        "./app/hooks/*"
+      ],
+      "@components/*": [
+        "./app/components/*"
+      ],
+      "@lib/*": [
+        "./app/lib/*"
+      ],
+      "@models/*": [
+        "./app/models/*"
+      ]
+    },
+    "forceConsistentCasingInFileNames": true
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts"],
-  "exclude": ["node_modules"]
+  "include": [
+    "next-env.d.ts",
+    "**/*.ts",
+    "**/*.tsx",
+    ".next/types/**/*.ts"
+  ],
+  "exclude": [
+    "node_modules"
+  ]
 }
