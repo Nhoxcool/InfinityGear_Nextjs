@@ -32,10 +32,10 @@ export default function ForgetPassword() {
         body: JSON.stringify(values),
       });
 
-      const { messege, error } = await res.json();
+      const { message, error } = await res.json();
 
       if (res.ok) {
-        toast.success(messege);
+        toast.success(message);
       }
 
       if (!res.ok && error) {
