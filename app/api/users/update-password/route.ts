@@ -1,4 +1,5 @@
 import startDb from "@/app/lib/db";
+import { sendEmail } from "@/app/lib/email";
 import PasswordResetTokenModel from "@/app/models/passwordResetTokenModel";
 import UserModel from "@/app/models/userModel";
 import { UpdatePasswordRequest } from "@/app/types";
@@ -48,21 +49,10 @@ export const POST = async (req: Request) => {
 
     await PasswordResetTokenModel.findByIdAndDelete(resetToken._id);
 
-    const transport = nodemailer.createTransport({
-      host: "sandbox.smtp.mailtrap.io",
-      port: 2525,
-      auth: {
-        user: process.env.MAIL_USERNAME,
-        pass: process.env.MAIL_PASSWORD,
-      },
+    await sendEmail({
+      profile: { name: user.name, email: user.email },
+      subject: "password-changed",
     });
-
-    transport.sendMail({
-      from: "verification@infinitygear.com",
-      to: user.email,
-      html: `<h1>Your password is now change</h1>`,
-    });
-
     return NextResponse.json({ message: "Your password is now changed." });
   } catch (error) {
     return NextResponse.json(

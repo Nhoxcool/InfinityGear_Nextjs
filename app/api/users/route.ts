@@ -5,6 +5,7 @@ import UserModel from "@models/userModel";
 import { NextResponse } from "next/server";
 import nodemailer from "nodemailer";
 import crypto from "crypto";
+import { sendEmail } from "@/app/lib/email";
 
 export const POST = async (req: Request) => {
   const body = (await req.json()) as NewUserRequest;
@@ -21,21 +22,12 @@ export const POST = async (req: Request) => {
     token,
   });
 
-  const transport = nodemailer.createTransport({
-    host: "sandbox.smtp.mailtrap.io",
-    port: 2525,
-    auth: {
-      user: process.env.MAIL_USERNAME,
-      pass: process.env.MAIL_PASSWORD,
-    },
-  });
+  const verificationUrl = `${process.env.VERIFICATION_URL}?token=${token}&userId=${newUser._id}`;
 
-  const verificationUrl = `http://localhost:4000/verify?token=${token}&userId=${newUser._id}`;
-
-  transport.sendMail({
-    from: "verification@infinitygear.com",
-    to: newUser.email,
-    html: `<h1>Please verify your email by clicking on <a href="${verificationUrl}">This link</a>`,
+  await sendEmail({
+    profile: { name: newUser.name, email: newUser.email },
+    subject: "verification",
+    linkUrl: verificationUrl,
   });
 
   return NextResponse.json({ message: "Please check your email!" });
