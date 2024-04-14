@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState } from "react";
 import {
   Drawer,
   Typography,
@@ -9,7 +9,7 @@ import {
   Accordion,
   AccordionHeader,
   AccordionBody,
-} from '@material-tailwind/react';
+} from "@material-tailwind/react";
 
 import {
   XMarkIcon,
@@ -22,12 +22,13 @@ import {
   ComputerDesktopIcon,
   CpuChipIcon,
   ArchiveBoxIcon,
-} from '@heroicons/react/24/outline';
-import { PowerIcon } from '@heroicons/react/24/solid';
-import Link from 'next/link';
-import useAuth from '@hooks/useAuth';
-import { MenuItems } from '@app/types';
-import Image from 'next/image';
+} from "@heroicons/react/24/outline";
+import { PowerIcon } from "@heroicons/react/24/solid";
+import Link from "next/link";
+import useAuth from "@hooks/useAuth";
+import { MenuItems } from "@app/types";
+import Image from "next/image";
+import SignOutButton from "./SignOutButton";
 
 interface Props {
   open: boolean;
@@ -37,14 +38,14 @@ interface Props {
 
 export const CategoryItems = [
   {
-    href: '/PC',
+    href: "/PC",
     icon: <ComputerDesktopIcon className="h-4 w-4" />,
-    label: 'PC',
+    label: "PC",
   },
   {
-    href: '/Laptop',
+    href: "/Laptop",
     icon: <CpuChipIcon className="h-4 w-4" />,
-    label: 'Laptop',
+    label: "Laptop",
   },
 ];
 
@@ -105,7 +106,7 @@ export function MobileNav({ open, onClose, menuItems }: Props) {
               <ChevronDownIcon
                 strokeWidth={2.5}
                 className={`mx-auto h-4 w-4 transition-transform ${
-                  categoryDropdownOpen === true ? 'rotate-180' : ''
+                  categoryDropdownOpen === true ? "rotate-180" : ""
                 }`}
               />
             }
@@ -141,12 +142,14 @@ export function MobileNav({ open, onClose, menuItems }: Props) {
           </Accordion>
 
           {loggedIn ? (
-            <ListItem>
-              <ListItemPrefix>
-                <PowerIcon className="h-5 w-5" />
-              </ListItemPrefix>
-              Sign Out
-            </ListItem>
+            <SignOutButton>
+              <ListItem>
+                <ListItemPrefix>
+                  <PowerIcon className="h-5 w-5" />
+                </ListItemPrefix>
+                Sign Out
+              </ListItem>
+            </SignOutButton>
           ) : (
             <div className="flex items-cente flex-col mt-10 gap-10">
               <Link
