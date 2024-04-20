@@ -17,7 +17,7 @@ export const POST = async (req: Request) => {
   });
 
   const token = crypto.randomBytes(36).toString("hex");
-  EmailVerificationToken.create({
+  await EmailVerificationToken.create({
     user: newUser._id,
     token,
   });
