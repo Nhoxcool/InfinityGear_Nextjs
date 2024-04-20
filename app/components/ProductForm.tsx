@@ -15,11 +15,12 @@ import React, {
 import { PlusIcon, TrashIcon } from "@heroicons/react/24/outline";
 import categories from "@/app/utils/categories";
 import ImageSelector from "@components/ImageSelector";
-import { Branch } from "../types";
+import { Branch, NewProductInfo } from "../types";
+import { toast } from "react-toastify";
 
 interface Props {
   initialValue?: InitialValue;
-  onSubmit(values: any): void;
+  onSubmit(values: NewProductInfo): void;
 }
 
 export interface InitialValue {
@@ -57,7 +58,7 @@ export default function ProductForm(props: Props) {
   const [thumbnailSource, setThumbnailSource] = useState<string[]>();
   const [productImagesSource, setProductImagesSource] = useState<string[]>();
   const [brandes, setBrandes] = useState<Branch[]>();
-  const [choseCatagory, setChoseCategory] = useState<string>("");
+  const [chooseCatagory, setChooseCategory] = useState<string>("");
 
   useEffect(() => {
     const fetchData = async () => {
@@ -69,10 +70,10 @@ export default function ProductForm(props: Props) {
           const data = await response.json();
           setBrandes(data.brandes);
         } else {
-          console.error("Failed to fetch brand data:", response.statusText);
+          toast.error("Failed to get brand data");
         }
       } catch (error) {
-        console.error("Error fetching brand data:", error);
+        toast.error("Error fetching brand data");
       }
     };
 
@@ -205,7 +206,7 @@ export default function ProductForm(props: Props) {
                 category,
                 brand: selectedBrand ? selectedBrand.brandName : "",
               });
-              setChoseCategory(category);
+              setChooseCategory(category);
             }
           }}
           value={productInfo.category}
@@ -227,9 +228,9 @@ export default function ProductForm(props: Props) {
             label="Select Brand"
           >
             {brandes
-              .filter((b) => b.category === choseCatagory)
+              .filter((b) => b.category === chooseCatagory)
               .map((b) => (
-                <Option value={b.brandName} key={b.id}>
+                <Option value={b.brandName} key={b.brandName}>
                   {b.brandName}
                 </Option>
               ))}

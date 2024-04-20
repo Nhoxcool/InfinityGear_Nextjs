@@ -1,7 +1,7 @@
-import { Model, model, models, Schema, Types } from "mongoose";
+import { Document, Model, model, models, Schema, Types } from "mongoose";
 import categories from "../utils/categories";
 
-export interface NewProduct {
+export interface ProductDocument extends Document {
   title: string;
   description: string;
   bulletPoints?: string[];
@@ -14,13 +14,11 @@ export interface NewProduct {
   brand: string;
   category: string;
   quantity: number;
-}
 
-export interface ProductDocument extends NewProduct {
+  // Virtual property
   sale: number;
 }
 
-// Step 2: Define the Mongoose schema
 const productSchema = new Schema<ProductDocument>(
   {
     title: { type: String, required: true },
