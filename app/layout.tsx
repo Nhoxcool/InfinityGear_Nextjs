@@ -1,8 +1,7 @@
+import "./globals.css";
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
-import "./globals.css";
 import Navbar from "@components/navbar";
-import Footer from "@components/footer";
 import Notification from "@components/Notification";
 import AuthSession from "./components/AuthSession";
 
@@ -15,17 +14,15 @@ export const metadata: Metadata = {
 
 export default function RootLayout({
   children,
-}: Readonly<{
+}: {
   children: React.ReactNode;
-}>) {
+}) {
   return (
     <AuthSession>
       <html lang="en">
         <body className={inter.className}>
-          <Navbar />
           {children}
           <Notification />
-          <Footer />
         </body>
       </html>
     </AuthSession>

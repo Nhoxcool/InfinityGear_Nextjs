@@ -47,6 +47,7 @@ const authConfig: NextAuthConfig = {
           email: user.email,
           avatar: user.avatar,
           verified: user.verified,
+          role: user.role,
         };
       }
       return params.session;
