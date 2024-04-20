@@ -5,7 +5,6 @@ import UserModel from "@/app/models/userModel";
 import { UpdatePasswordRequest } from "@/app/types";
 import { isValidObjectId } from "mongoose";
 import { NextResponse } from "next/server";
-import nodemailer from "nodemailer";
 
 export const POST = async (req: Request) => {
   try {

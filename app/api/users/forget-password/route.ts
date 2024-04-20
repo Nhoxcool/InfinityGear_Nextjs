@@ -3,7 +3,6 @@ import UserModel from "@/app/models/userModel";
 import { ForgetPassword } from "@/app/types";
 import { NextResponse } from "next/server";
 import crypto from "crypto";
-import nodemailer from "nodemailer";
 import startDb from "@/app/lib/db";
 import { sendEmail } from "@/app/lib/email";
 
