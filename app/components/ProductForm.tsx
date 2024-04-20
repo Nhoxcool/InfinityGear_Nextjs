@@ -15,7 +15,7 @@ import React, {
 import { PlusIcon, TrashIcon } from "@heroicons/react/24/outline";
 import categories from "@/app/utils/categories";
 import ImageSelector from "@components/ImageSelector";
-import { Branch, NewProductInfo } from "../types";
+import { NewBrand, NewProductInfo } from "../types";
 import { toast } from "react-toastify";
 
 interface Props {
@@ -57,7 +57,7 @@ export default function ProductForm(props: Props) {
   const [productInfo, setProductInfo] = useState({ ...defaultValue });
   const [thumbnailSource, setThumbnailSource] = useState<string[]>();
   const [productImagesSource, setProductImagesSource] = useState<string[]>();
-  const [brandes, setBrandes] = useState<Branch[]>();
+  const [brandes, setBrandes] = useState<NewBrand[]>();
   const [chooseCatagory, setChooseCategory] = useState<string>("");
 
   useEffect(() => {
