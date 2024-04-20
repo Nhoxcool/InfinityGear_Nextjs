@@ -38,3 +38,14 @@ export interface SessionUserProfile {
   role: "user" | "admin";
   verified: boolean;
 }
+
+export interface NewBranchRequest {
+  brandName: string;
+  category: string;
+}
+
+export interface Branch {
+  id: string;
+  brandName: string;
+  category: string;
+}
