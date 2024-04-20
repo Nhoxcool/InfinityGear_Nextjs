@@ -1,7 +1,7 @@
 import { Document, Model, model, models, Schema, Types } from "mongoose";
 import categories from "../utils/categories";
 
-export interface ProductDocument extends Document {
+export interface NewProduct {
   title: string;
   description: string;
   bulletPoints?: string[];
@@ -14,7 +14,9 @@ export interface ProductDocument extends Document {
   brand: string;
   category: string;
   quantity: number;
+}
 
+export interface ProductDocument extends NewProduct {
   // Virtual property
   sale: number;
 }

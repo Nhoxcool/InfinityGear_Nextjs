@@ -44,10 +44,16 @@ export interface NewBranchRequest {
   category: string;
 }
 
-export interface Branch {
+export interface NewBrand {
   id: string;
   brandName: string;
   category: string;
+}
+
+export interface NewBrandInfo {
+  brand: string;
+  category: string;
+  logo?: File;
 }
 
 export interface NewProductInfo {
