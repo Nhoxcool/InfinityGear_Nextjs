@@ -49,3 +49,16 @@ export interface Branch {
   brandName: string;
   category: string;
 }
+
+export interface NewProductInfo {
+  title: string;
+  description: string;
+  bulletPoints: string[];
+  mrp: number;
+  salePrice: number;
+  category: string;
+  brand: string;
+  quantity: number;
+  thumbnail?: File;
+  images: File[];
+}
