@@ -39,6 +39,9 @@
       ],
       "@models/*": [
         "./app/models/*"
+      ],
+      "@ui/*": [
+        "./app/ui/*"
       ]
     },
     "forceConsistentCasingInFileNames": true
