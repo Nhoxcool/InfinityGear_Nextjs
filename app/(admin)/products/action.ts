@@ -28,6 +28,23 @@ export const getCloudSignature = async () => {
   return { timestamp, signature };
 };
 
+export const checkProduct = async (title: string) => {
+  try {
+    await startDb();
+    const existingProduct = await ProductModel.findOne({
+      title: title,
+    });
+
+    if (existingProduct) {
+      return false;
+    }
+    return true;
+  } catch (error) {
+    console.log((error as any).message);
+    throw new Error("Something went wrong, can not create product!");
+  }
+};
+
 export const createProduct = async (info: NewProduct) => {
   try {
     await startDb();
@@ -35,6 +52,24 @@ export const createProduct = async (info: NewProduct) => {
   } catch (error) {
     console.log((error as any).message);
     throw new Error("Something went wrong, can not create product!");
+  }
+};
+
+export const checkBrand = async (brand: string, category: string) => {
+  try {
+    await startDb();
+    const existingBrand = await BrandModel.findOne({
+      brand: brand,
+      category: category,
+    });
+
+    if (existingBrand) {
+      return false;
+    }
+    return true;
+  } catch (error) {
+    console.log((error as any).message);
+    throw new Error("Something went wrong, can not create brand!");
   }
 };
 

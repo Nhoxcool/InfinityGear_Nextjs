@@ -49,6 +49,10 @@ export default function BrandTable(props: Props) {
     router.push(`/products?page=${nextPage}`);
   };
 
+  const handleDelete = (id: string) => {
+    console.log(id);
+  };
+
   return (
     <div className="py-5">
       <div className="mb-4 flex flex-col justify-between gap-8 md:flex-row md:items-center">
@@ -125,11 +129,15 @@ export default function BrandTable(props: Props) {
                     </div>
                   </td>
                   <td className={classes}>
-                    <Link href={`/brandes/update/${id}`}>
-                      <IconButton variant="text" color="blue-gray">
+                    <div>
+                      <IconButton
+                        variant="text"
+                        color="blue-gray"
+                        onClick={() => handleDelete(id)}
+                      >
                         <PencilIcon className="h-4 w-4" />
                       </IconButton>
-                    </Link>
+                    </div>
                   </td>
                 </tr>
               );

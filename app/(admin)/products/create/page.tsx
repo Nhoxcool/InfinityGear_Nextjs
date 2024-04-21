@@ -6,14 +6,17 @@ import { newProductInfoSchema } from "@/app/utils/validationSchema";
 import React from "react";
 import { toast } from "react-toastify";
 import { ValidationError } from "yup";
-import { createProduct } from "../action";
-import { useRouter } from "next/navigation";
+import { checkProduct, createProduct } from "../action";
 
 export default function Create() {
   const handleCreateProduct = async (values: NewProductInfo) => {
     try {
-      const { thumbnail, images } = values;
+      const { thumbnail, images, title } = values;
       await newProductInfoSchema.validate(values, { abortEarly: false });
+      const check = await checkProduct(title);
+
+      if (!check) return toast.error("Product are already exist!");
+
       const thumbnailRes = await uploadImage(thumbnail!);
 
       let productImages: { url: string; id: string }[] = [];

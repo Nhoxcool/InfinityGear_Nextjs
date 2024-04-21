@@ -6,16 +6,19 @@ import { newBrandInfoSchema } from "@/app/utils/validationSchema";
 import React from "react";
 import { ValidationError } from "yup";
 import { toast } from "react-toastify";
-import { createBrand } from "../../products/action";
+import { checkBrand, createBrand } from "../../products/action";
 
 export default function Create() {
   const handleCreateBrand = async (values: NewBrandInfo) => {
     try {
-      const { logo } = values;
-      await newBrandInfoSchema.validate(values, { abortEarly: false });
-      const logoRes = await uploadImage(logo!);
+      const { logo, brand, category } = values;
 
-      console.log(logoRes);
+      await newBrandInfoSchema.validate(values, { abortEarly: false });
+      const check = await checkBrand(brand, category);
+
+      if (!check) return toast.error("Both brand and category already exist!");
+
+      const logoRes = await uploadImage(logo!);
       await createBrand({
         ...values,
         logo: logoRes,
