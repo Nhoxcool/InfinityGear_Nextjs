@@ -40,13 +40,14 @@ export interface SessionUserProfile {
 }
 
 export interface NewBranchRequest {
-  brandName: string;
+  logo: File;
+  brand: string;
   category: string;
 }
 
 export interface NewBrand {
   id: string;
-  brandName: string;
+  brand: string;
   category: string;
 }
 

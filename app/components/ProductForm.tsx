@@ -69,6 +69,7 @@ export default function ProductForm(props: Props) {
         if (response.ok) {
           const data = await response.json();
           setBrandes(data.brandes);
+          console.log(brandes);
         } else {
           toast.error("Failed to get brand data");
         }
@@ -204,7 +205,7 @@ export default function ProductForm(props: Props) {
               setProductInfo({
                 ...productInfo,
                 category,
-                brand: selectedBrand ? selectedBrand.brandName : "",
+                brand: selectedBrand ? selectedBrand.brand : "",
               });
               setChooseCategory(category);
             }
@@ -230,8 +231,8 @@ export default function ProductForm(props: Props) {
             {brandes
               .filter((b) => b.category === chooseCatagory)
               .map((b) => (
-                <Option value={b.brandName} key={b.brandName}>
-                  {b.brandName}
+                <Option value={b.brand} key={b.brand}>
+                  {b.brand}
                 </Option>
               ))}
           </Select>

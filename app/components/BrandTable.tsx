@@ -21,7 +21,7 @@ export interface Brand {
   brand: string;
 }
 
-const TABLE_HEAD = ["brand", "Catgory"];
+const TABLE_HEAD = ["brand", "Catgory", "Edit"];
 
 interface Props {
   brandes: Brand[];
@@ -106,7 +106,7 @@ export default function BrandTable(props: Props) {
                         size="md"
                         variant="rounded"
                       />
-                      <p>
+                      <>
                         <Typography
                           variant="small"
                           color="blue-gray"
@@ -114,7 +114,7 @@ export default function BrandTable(props: Props) {
                         >
                           {truncate(brand, 30)}
                         </Typography>
-                      </p>
+                      </>
                     </div>
                   </td>
                   <td className={classes}>
@@ -123,6 +123,13 @@ export default function BrandTable(props: Props) {
                         {category}
                       </Typography>
                     </div>
+                  </td>
+                  <td className={classes}>
+                    <Link href={`/brandes/update/${id}`}>
+                      <IconButton variant="text" color="blue-gray">
+                        <PencilIcon className="h-4 w-4" />
+                      </IconButton>
+                    </Link>
                   </td>
                 </tr>
               );
