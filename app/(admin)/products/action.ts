@@ -1,6 +1,7 @@
 "use server";
 
 import startDb from "@/app/lib/db";
+import BrandModel, { NewBrand } from "@/app/models/BrandeModel";
 import ProductModel, { NewProduct } from "@/app/models/ProductModel";
 import { v2 as cloudinary } from "cloudinary";
 
@@ -34,5 +35,15 @@ export const createProduct = async (info: NewProduct) => {
   } catch (error) {
     console.log((error as any).message);
     throw new Error("Something went wrong, can not create product!");
+  }
+};
+
+export const createBrand = async (info: NewBrand) => {
+  try {
+    await startDb();
+    await BrandModel.create({ ...info });
+  } catch (error) {
+    console.log((error as any).message);
+    throw new Error("Something went wrong, can not create brand!");
   }
 };
