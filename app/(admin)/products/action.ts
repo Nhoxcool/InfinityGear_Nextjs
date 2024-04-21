@@ -82,3 +82,7 @@ export const createBrand = async (info: NewBrand) => {
     throw new Error("Something went wrong, can not create brand!");
   }
 };
+
+export const removeImageFromCloud = async (publicId: string) => {
+  await cloudinary.uploader.destroy(publicId);
+};

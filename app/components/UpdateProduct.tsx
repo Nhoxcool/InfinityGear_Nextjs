@@ -15,5 +15,12 @@ export default function UpdateProduct({ product }: Props) {
     salePrice: product.price.discounted,
     bulletPoints: product.bulletPoints || [],
   };
-  return <ProductForm initialValue={initialValue} />;
+  return (
+    <ProductForm
+      initialValue={initialValue}
+      onSubmit={(values) => {
+        console.log(values);
+      }}
+    />
+  );
 }
