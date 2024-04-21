@@ -86,3 +86,25 @@ export const createBrand = async (info: NewBrand) => {
 export const removeImageFromCloud = async (publicId: string) => {
   await cloudinary.uploader.destroy(publicId);
 };
+
+export const removeAndUpdateProductImage = async (
+  id: string,
+  publicId: string
+) => {
+  const { result } = await cloudinary.uploader.destroy(publicId);
+
+  try {
+    if (result === "ok") {
+      await startDb();
+      await ProductModel.findByIdAndUpdate(id, {
+        $pull: { images: { id: publicId } },
+      });
+    }
+  } catch (error) {
+    console.log(
+      "Error while removing image from cloud: ",
+      (error as any).message
+    );
+    throw error;
+  }
+};
