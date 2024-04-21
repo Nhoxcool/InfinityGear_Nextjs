@@ -1,7 +1,6 @@
 import ProductTable, { Product } from "@/app/components/ProductTable";
 import startDb from "@/app/lib/db";
 import ProductModel from "@/app/models/ProductModel";
-import { title } from "process";
 import React from "react";
 
 const fetchProducts = async (

@@ -58,7 +58,7 @@ export default function ProductForm(props: Props) {
   const [productInfo, setProductInfo] = useState({ ...defaultValue });
   const [thumbnailSource, setThumbnailSource] = useState<string[]>();
   const [productImagesSource, setProductImagesSource] = useState<string[]>();
-  const [brandes, setBrandes] = useState<NewBrand[]>();
+  const [brands, setBrands] = useState<NewBrand[]>();
   const [chooseCatagory, setChooseCategory] = useState<string>("");
 
   useEffect(() => {
@@ -69,7 +69,7 @@ export default function ProductForm(props: Props) {
         });
         if (response.ok) {
           const data = await response.json();
-          setBrandes(data.brandes);
+          setBrands(data.brandes);
         } else {
           toast.error("Failed to get brand data");
         }
@@ -143,6 +143,7 @@ export default function ProductForm(props: Props) {
       setProductInfo({ ...initialValue });
       setThumbnailSource([initialValue.thumbnail]);
       setProductImagesSource(initialValue.images);
+      setChooseCategory(initialValue.category);
       setIsForUpdate(true);
     }
   }, []);
@@ -221,7 +222,7 @@ export default function ProductForm(props: Props) {
         <Select
           onChange={(category) => {
             if (category) {
-              const selectedBrand = brandes?.find(
+              const selectedBrand = brands?.find(
                 (b) => b.category === category
               );
               setProductInfo({
@@ -242,7 +243,7 @@ export default function ProductForm(props: Props) {
           ))}
         </Select>
 
-        {initialValue?.brand && brandes ? (
+        {brands ? (
           <Select
             onChange={(brand) => {
               if (brand) setProductInfo({ ...productInfo, brand });
@@ -250,12 +251,8 @@ export default function ProductForm(props: Props) {
             value={productInfo.brand}
             label="Select Brand"
           >
-            {brandes
-              .filter(
-                (b) =>
-                  b.category === chooseCatagory ||
-                  b.category === initialValue.category
-              )
+            {brands
+              .filter((b) => b.category === chooseCatagory)
               .map((b) => (
                 <Option value={b.brand} key={b.brand}>
                   {b.brand}
