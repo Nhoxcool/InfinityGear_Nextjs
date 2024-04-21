@@ -1,8 +1,6 @@
 import UpdateBrand from "@/app/components/UpdateBrand";
-import UpdateProduct from "@/app/components/UpdateProduct";
 import startDb from "@/app/lib/db";
 import BrandModel from "@/app/models/BrandeModel";
-import { BrandResponse, ProductResponse } from "@/app/types";
 import { isValidObjectId } from "mongoose";
 import { redirect } from "next/navigation";
 import React from "react";

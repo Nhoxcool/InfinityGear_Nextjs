@@ -21,6 +21,7 @@ import { toast } from "react-toastify";
 interface Props {
   initialValue?: InitialValue;
   onSubmit(values: NewProductInfo): void;
+  onImageRemove?(source: string): void;
 }
 
 export interface InitialValue {
@@ -49,9 +50,9 @@ const defaultValue = {
 };
 
 export default function ProductForm(props: Props) {
-  const { onSubmit, initialValue } = props;
+  const { onSubmit, onImageRemove, initialValue } = props;
   const [isPending, startTransition] = useTransition();
-  const [images, setImages] = useState<File[]>([]);
+  const [imageFiles, setImageFile] = useState<File[]>([]);
   const [thumbnail, setThumbnail] = useState<File>();
   const [isForUpdate, setIsForUpdate] = useState(false);
   const [productInfo, setProductInfo] = useState({ ...defaultValue });
@@ -106,8 +107,30 @@ export default function ProductForm(props: Props) {
   };
 
   const removeImage = async (index: number) => {
-    const newImages = images.filter((_, idx) => idx !== index);
-    setImages([...newImages]);
+    if (!productImagesSource) return;
+    // if image is from cloud we want to remove it from cloud
+    const imageToRemove = productImagesSource[index];
+    const cloudSourceUrl = "https://res.cloudinary.com";
+    if (imageToRemove.startsWith(cloudSourceUrl)) {
+      onImageRemove && onImageRemove(imageToRemove);
+    } else {
+      // if this image is from local state we want to update local state
+      const fileIndexDifference =
+        productImagesSource.length - imageFiles.length;
+      const indexToRemove = index - fileIndexDifference;
+      const newImageFiles = imageFiles.filter((_, i) => {
+        if (i !== indexToRemove) return true;
+      });
+
+      setImageFile([...newImageFiles]);
+    }
+
+    // also we want to update UI
+    const newImageSource = productImagesSource.filter((_, i) => {
+      if (i !== index) return true;
+    });
+
+    setProductImagesSource([...newImageSource]);
   };
 
   const getBtnTitle = () => {
@@ -129,7 +152,7 @@ export default function ProductForm(props: Props) {
     if (files) {
       const newImages = Array.from(files).map((item) => item);
       const oldImages = productImagesSource || [];
-      setImages([...images, ...newImages]);
+      setImageFile([...imageFiles, ...newImages]);
       setProductImagesSource([
         ...oldImages,
         ...newImages.map((file) => URL.createObjectURL(file)),
@@ -155,7 +178,7 @@ export default function ProductForm(props: Props) {
       <form
         action={() =>
           startTransition(async () => {
-            await onSubmit({ ...productInfo, images, thumbnail });
+            await onSubmit({ ...productInfo, images: imageFiles, thumbnail });
           })
         }
         className="space-y-6"
@@ -219,7 +242,7 @@ export default function ProductForm(props: Props) {
           ))}
         </Select>
 
-        {brandes ? (
+        {initialValue?.brand && brandes ? (
           <Select
             onChange={(brand) => {
               if (brand) setProductInfo({ ...productInfo, brand });
@@ -228,7 +251,11 @@ export default function ProductForm(props: Props) {
             label="Select Brand"
           >
             {brandes
-              .filter((b) => b.category === chooseCatagory)
+              .filter(
+                (b) =>
+                  b.category === chooseCatagory ||
+                  b.category === initialValue.category
+              )
               .map((b) => (
                 <Option value={b.brand} key={b.brand}>
                   {b.brand}
