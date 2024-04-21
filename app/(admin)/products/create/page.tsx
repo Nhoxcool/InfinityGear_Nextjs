@@ -10,8 +10,6 @@ import { createProduct } from "../action";
 import { useRouter } from "next/navigation";
 
 export default function Create() {
-  const router = useRouter();
-
   const handleCreateProduct = async (values: NewProductInfo) => {
     try {
       const { thumbnail, images } = values;
@@ -26,7 +24,6 @@ export default function Create() {
         });
 
         productImages = await Promise.all(uploadPromise);
-        console.log(productImages);
       }
 
       await createProduct({

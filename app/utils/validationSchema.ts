@@ -37,6 +37,22 @@ export const newProductInfoSchema = Yup.object().shape({
     ),
 });
 
+const commonBrandSchema = {
+  brand: Yup.string().required("Brand is required"),
+  category: Yup.string()
+    .required("Category is required")
+    .oneOf(categories, "Invalid category"),
+};
+
+export const newBrandInfoSchema = Yup.object().shape({
+  ...commonBrandSchema,
+  logo: Yup.mixed()
+    .required("logo is required")
+    .test("fileSize", "logo should be less than 1MB", (file) =>
+      fileValidator(file as File)
+    ),
+});
+
 export const updateProductInfoSchema = Yup.object().shape({
   ...commonSchema,
 });
