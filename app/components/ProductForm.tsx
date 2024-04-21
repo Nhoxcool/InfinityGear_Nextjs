@@ -69,7 +69,6 @@ export default function ProductForm(props: Props) {
         if (response.ok) {
           const data = await response.json();
           setBrandes(data.brandes);
-          console.log(brandes);
         } else {
           toast.error("Failed to get brand data");
         }
