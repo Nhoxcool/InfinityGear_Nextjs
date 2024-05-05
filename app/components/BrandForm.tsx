@@ -6,9 +6,9 @@ import React, {
   useTransition,
   ChangeEventHandler,
 } from "react";
-import categories from "@/app/utils/categories";
 import ImageSelector from "@components/ImageSelector";
 import { NewBrandInfo } from "../types";
+import categories from "../utils/categories";
 
 interface Props {
   initialValue?: InitialValue;

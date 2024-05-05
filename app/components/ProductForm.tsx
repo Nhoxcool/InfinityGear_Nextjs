@@ -13,10 +13,10 @@ import React, {
   ChangeEventHandler,
 } from "react";
 import { PlusIcon, TrashIcon } from "@heroicons/react/24/outline";
-import categories from "@/app/utils/categories";
 import ImageSelector from "@components/ImageSelector";
 import { NewBrand, NewProductInfo } from "../types";
 import { toast } from "react-toastify";
+import categories from "../utils/categories";
 
 interface Props {
   initialValue?: InitialValue;
@@ -60,6 +60,7 @@ export default function ProductForm(props: Props) {
   const [productImagesSource, setProductImagesSource] = useState<string[]>();
   const [brands, setBrands] = useState<NewBrand[]>();
   const [chooseCatagory, setChooseCategory] = useState<string>("");
+  const [chooseBrand, setChooseBrand] = useState<string>("");
 
   useEffect(() => {
     const fetchData = async () => {
@@ -69,6 +70,7 @@ export default function ProductForm(props: Props) {
         });
         if (response.ok) {
           const data = await response.json();
+          console.log("Fetched brands data:", data);
           setBrands(data.brandes);
         } else {
           toast.error("Failed to get brand data");
@@ -231,6 +233,9 @@ export default function ProductForm(props: Props) {
                 brand: selectedBrand ? selectedBrand.brand : "",
               });
               setChooseCategory(category);
+              if (brands && brands.length > 1) {
+                setChooseBrand(brands[1]?.brand);
+              }
             }
           }}
           value={productInfo.category}
@@ -248,7 +253,7 @@ export default function ProductForm(props: Props) {
             onChange={(brand) => {
               if (brand) setProductInfo({ ...productInfo, brand });
             }}
-            value={productInfo.brand}
+            value={chooseBrand ? chooseBrand : productInfo.brand}
             label="Select Brand"
           >
             {brands
@@ -259,7 +264,9 @@ export default function ProductForm(props: Props) {
                 </Option>
               ))}
           </Select>
-        ) : null}
+        ) : (
+          <p>No brands available</p>
+        )}
 
         <div className="flex space-x-4">
           <div className="space-y-4 flex-1">
