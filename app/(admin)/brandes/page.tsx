@@ -10,25 +10,25 @@ const fetchBrandes = async (
 ): Promise<Brand[]> => {
   const skipCount = (pageNo - 1) * perPage;
   await startDb();
-  const brandes = await BrandModel.find()
+  const brands = await BrandModel.find()
     .sort("-createdAt")
     .skip(skipCount)
     .limit(perPage);
-  return brandes.map((brandes) => {
+  return brands.map((brands) => {
     return {
-      id: brandes._id.toString(),
-      category: brandes.category,
-      brand: brandes.brand,
-      logo: brandes.logo.url,
+      id: brands._id.toString(),
+      category: brands.category,
+      brand: brands.brand,
+      logo: brands.logo.url,
     };
   });
 };
 
 export default async function Brandes() {
-  const brandes = await fetchBrandes(1, 10);
+  const brands = await fetchBrandes(1, 10);
   return (
     <div>
-      <BrandTable brandes={brandes} />
+      <BrandTable brands={brands} />
     </div>
   );
 }

@@ -24,7 +24,7 @@ export interface Brand {
 const TABLE_HEAD = ["brand", "Catgory", "Edit"];
 
 interface Props {
-  brandes: Brand[];
+  brands: Brand[];
   currentPageNo: number;
   hasMore?: boolean;
   showPageNavigator?: boolean;
@@ -33,7 +33,7 @@ interface Props {
 export default function BrandTable(props: Props) {
   const router = useRouter();
   const {
-    brandes = [],
+    brands: brandes = [],
     currentPageNo,
     hasMore,
     showPageNavigator = true,
