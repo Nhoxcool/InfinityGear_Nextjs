@@ -3,8 +3,10 @@
 import startDb from "@/app/lib/db";
 import BrandModel, { NewBrand } from "@/app/models/BrandeModel";
 import ProductModel, { NewProduct } from "@/app/models/ProductModel";
+import { BrandToUpdate, ProductResponse, ProductToUpdate } from "@/app/types";
 import { v2 as cloudinary } from "cloudinary";
-
+import { redirect } from "next/navigation";
+import { useRouter } from "next/router";
 cloudinary.config({
   cloud_name: process.env.CLOUD_NAME,
   api_key: process.env.CLOUD_API_KEY,
@@ -105,6 +107,60 @@ export const removeAndUpdateProductImage = async (
       "Error while removing image from cloud: ",
       (error as any).message
     );
+    throw error;
+  }
+};
+
+export const updateProduct = async (
+  id: string,
+  productInfo: ProductToUpdate
+) => {
+  try {
+    await startDb();
+    let images: typeof productInfo.images = [];
+    if (productInfo.images) {
+      images = productInfo.images;
+    }
+    delete productInfo.images;
+    await ProductModel.findByIdAndUpdate(id, {
+      ...productInfo,
+      $push: { images },
+    });
+  } catch (error) {
+    console.log("Error while updating product, ", (error as any).message);
+    throw error;
+  }
+};
+
+export const updateBrand = async (id: string, brandInfo: BrandToUpdate) => {
+  try {
+    await startDb();
+
+    await BrandModel.findByIdAndUpdate(id, {
+      ...brandInfo,
+    });
+  } catch (error) {
+    console.log("Error while updating product, ", (error as any).message);
+    throw error;
+  }
+};
+
+export const deleteProduct = async (id: string) => {
+  try {
+    await startDb();
+    const deleteProduct = (await ProductModel.findById(id)) as ProductResponse;
+
+    removeImageFromCloud(deleteProduct?.thumbnail.id);
+
+    if (deleteProduct.images) {
+      deleteProduct.images.map((image) => {
+        removeImageFromCloud(image.id);
+      });
+    }
+
+    await ProductModel.findByIdAndDelete(id);
+  } catch (error) {
+    console.log("Error while deleting product, ", (error as any).message);
     throw error;
   }
 };

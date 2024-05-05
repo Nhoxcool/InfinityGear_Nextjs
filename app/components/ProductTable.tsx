@@ -1,6 +1,6 @@
 "use client";
 import { PencilIcon } from "@heroicons/react/24/solid";
-import { PlusIcon } from "@heroicons/react/24/outline";
+import { PlusIcon, XMarkIcon } from "@heroicons/react/24/outline";
 import {
   Typography,
   CardBody,
@@ -13,6 +13,7 @@ import truncate from "truncate";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import SearchForm from "@components/SearchForm";
+import DeleteProductModal from "./DeleteProductModal";
 
 export interface Product {
   id: string;
@@ -46,6 +47,7 @@ const TABLE_HEAD = [
   "Category",
   "Brand",
   "Edit",
+  "Delete",
 ];
 
 interface Props {
@@ -188,6 +190,9 @@ export default function ProductTable(props: Props) {
                         <PencilIcon className="h-4 w-4" />
                       </IconButton>
                     </Link>
+                  </td>
+                  <td className={classes}>
+                    <DeleteProductModal productId={id} />
                   </td>
                 </tr>
               );
