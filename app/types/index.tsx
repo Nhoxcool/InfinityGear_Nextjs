@@ -101,3 +101,24 @@ export interface BrandResponse {
   category: string;
   brand: string;
 }
+
+export interface ProductToUpdate {
+  title: string;
+  description: string;
+  bulletPoints: string[];
+  category: string;
+  quantity: number;
+  brand: string;
+  price: {
+    base: number;
+    discounted: number;
+  };
+  thumbnail?: { url: string; id: string };
+  images?: { url: string; id: string }[];
+}
+
+export interface BrandToUpdate {
+  brand: string;
+  category: string;
+  logo?: { url: string; id: string };
+}

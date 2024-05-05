@@ -37,6 +37,10 @@ export const newProductInfoSchema = Yup.object().shape({
     ),
 });
 
+export const updateProductInfoSchema = Yup.object().shape({
+  ...commonSchema,
+});
+
 const commonBrandSchema = {
   brand: Yup.string().required("Brand is required"),
   category: Yup.string()
@@ -53,6 +57,6 @@ export const newBrandInfoSchema = Yup.object().shape({
     ),
 });
 
-export const updateProductInfoSchema = Yup.object().shape({
-  ...commonSchema,
+export const updateBrandInfoSchema = Yup.object().shape({
+  ...commonBrandSchema,
 });
