@@ -2,6 +2,7 @@ import BrandTable, { Brand } from "@/app/components/BrandTable";
 import ProductTable, { Product } from "@/app/components/ProductTable";
 import startDb from "@/app/lib/db";
 import BrandModel from "@/app/models/BrandeModel";
+import { redirect } from "next/navigation";
 import React from "react";
 
 const fetchBrandes = async (
@@ -24,11 +25,26 @@ const fetchBrandes = async (
   });
 };
 
-export default async function Brandes() {
-  const brands = await fetchBrandes(1, 10);
+const BRANDS_PER_PAGE = 5;
+
+interface Props {
+  searchParams: { page: string };
+}
+
+export default async function Brandes({ searchParams }: Props) {
+  const { page = "1" } = searchParams;
+
+  if (isNaN(+page)) return redirect("/404");
+
+  const brands = await fetchBrandes(+page, BRANDS_PER_PAGE);
+  let hasMore = true;
+
+  if (brands.length < BRANDS_PER_PAGE) hasMore = false;
+  else hasMore = true;
+
   return (
     <div>
-      <BrandTable brands={brands} />
+      <BrandTable brands={brands} currentPageNo={+page} hasMore={hasMore} />
     </div>
   );
 }
