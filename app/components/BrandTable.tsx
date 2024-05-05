@@ -42,12 +42,12 @@ export default function BrandTable(props: Props) {
 
   const handleOnPrevPress = () => {
     const prevPage = currentPageNo - 1;
-    if (prevPage > 0) router.push(`/products?page=${prevPage}`);
+    if (prevPage > 0) router.push(`/brandes?page=${prevPage}`);
   };
 
   const handleOnNextPress = () => {
     const nextPage = currentPageNo + 1;
-    router.push(`/products?page=${nextPage}`);
+    router.push(`/brandes?page=${nextPage}`);
   };
 
   return (
