@@ -27,7 +27,7 @@ export default function EmailVerficationBanner() {
 
   return (
     <div className="p-1 text-center bg-blue-50">
-      <span>It looks like you haven't verified your email.</span>
+      <span>It looks like you havent verified your email.</span>
 
       <button
         disabled={submitting}
