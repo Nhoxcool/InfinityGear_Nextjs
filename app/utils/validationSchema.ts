@@ -12,9 +12,7 @@ const commonSchema = {
   description: Yup.string().required("Description is required"),
   bulletPoints: Yup.array().of(Yup.string()),
   mrp: Yup.number().required("MRP is required"),
-  salePrice: Yup.number()
-    .required("Sale price is required")
-    .lessThan(Yup.ref("mrp"), "Sale price must be less than MRP"),
+  salePrice: Yup.number().required("Sale price is required"),
   category: Yup.string()
     .required("Category is required")
     .oneOf(categories, "Invalid category"),
