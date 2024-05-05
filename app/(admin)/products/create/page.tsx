@@ -7,8 +7,9 @@ import React from "react";
 import { toast } from "react-toastify";
 import { ValidationError } from "yup";
 import { checkProduct, createProduct } from "../action";
-
+import { useRouter } from "next/navigation";
 export default function Create() {
+  const router = useRouter();
   const handleCreateProduct = async (values: NewProductInfo) => {
     try {
       const { thumbnail, images, title } = values;
@@ -38,6 +39,10 @@ export default function Create() {
         thumbnail: thumbnailRes,
         images: productImages,
       });
+
+      toast.success("Create Product Successfully");
+      router.refresh();
+      router.push("/products");
     } catch (error) {
       if (error instanceof ValidationError) {
         error.inner.map((err) => {

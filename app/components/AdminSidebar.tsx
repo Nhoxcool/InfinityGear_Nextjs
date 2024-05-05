@@ -45,7 +45,7 @@ const AdminSidebar = ({ children }: Props) => {
           <li>
             <Link className="flex items-center space-x-1" href="/brandes">
               <TagIcon className="w-4 h-4" />
-              <span>Brandes</span>
+              <span>Brands</span>
             </Link>
             <hr className="w-full " />
           </li>
