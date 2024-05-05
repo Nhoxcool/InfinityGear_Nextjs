@@ -13,6 +13,7 @@ import truncate from "truncate";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import SearchForm from "@components/SearchForm";
+import DeleteBrandModal from "./DeleteBrandModal";
 
 export interface Brand {
   id: string;
@@ -21,7 +22,7 @@ export interface Brand {
   brand: string;
 }
 
-const TABLE_HEAD = ["brand", "Catgory", "Edit"];
+const TABLE_HEAD = ["brand", "Catgory", "Edit", "DELETE"];
 
 interface Props {
   brands: Brand[];
@@ -103,7 +104,7 @@ export default function BrandTable(props: Props) {
                       <Avatar
                         src={logo}
                         alt={brand}
-                        size="md"
+                        size="xl"
                         variant="rounded"
                       />
                       <>
@@ -130,6 +131,9 @@ export default function BrandTable(props: Props) {
                         <PencilIcon className="h-4 w-4" />
                       </IconButton>
                     </Link>
+                  </td>
+                  <td className={classes}>
+                    <DeleteBrandModal brandId={id} />
                   </td>
                 </tr>
               );

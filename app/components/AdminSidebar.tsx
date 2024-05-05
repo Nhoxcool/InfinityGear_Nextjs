@@ -21,10 +21,7 @@ const AdminSidebar = ({ children }: Props) => {
       <div className="flex flex-col justify-between bg-cyan-600 h-screen sticky top-0 w-64 p-10">
         <ul className="space-y-4 text-white">
           <li>
-            <Link
-              className="font-semibold text-lg text-white"
-              href="/dashboard"
-            >
+            <Link className="font-semibold text-lg text-white" href="/">
               Ecommerce
             </Link>
           </li>

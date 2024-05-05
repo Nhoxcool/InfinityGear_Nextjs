@@ -3,7 +3,12 @@
 import startDb from "@/app/lib/db";
 import BrandModel, { NewBrand } from "@/app/models/BrandeModel";
 import ProductModel, { NewProduct } from "@/app/models/ProductModel";
-import { BrandToUpdate, ProductResponse, ProductToUpdate } from "@/app/types";
+import {
+  BrandResponse,
+  BrandToUpdate,
+  ProductResponse,
+  ProductToUpdate,
+} from "@/app/types";
 import { v2 as cloudinary } from "cloudinary";
 import { redirect } from "next/navigation";
 import { useRouter } from "next/router";
@@ -161,6 +166,20 @@ export const deleteProduct = async (id: string) => {
     await ProductModel.findByIdAndDelete(id);
   } catch (error) {
     console.log("Error while deleting product, ", (error as any).message);
+    throw error;
+  }
+};
+
+export const deleteBrand = async (id: string) => {
+  try {
+    await startDb();
+    const deleteBrand = (await BrandModel.findById(id)) as BrandResponse;
+
+    removeImageFromCloud(deleteBrand?.logo.id);
+
+    await BrandModel.findByIdAndDelete(id);
+  } catch (error) {
+    console.log("Error while deleting brand, ", (error as any).message);
     throw error;
   }
 };
