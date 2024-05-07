@@ -69,7 +69,7 @@ export default function UpdateProduct({ product }: Props) {
       updateProduct(product.id, dataToUpdate);
       toast.success("Product Update Successfully");
       router.refresh();
-      router.push("/products");
+      router.back();
     } catch (error) {
       if (error instanceof ValidationError) {
         error.inner.map((err) => {
