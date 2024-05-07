@@ -122,3 +122,8 @@ export interface BrandToUpdate {
   category: string;
   logo?: { url: string; id: string };
 }
+
+export interface NewCartRequest {
+  productId: string;
+  quantity: number;
+}
