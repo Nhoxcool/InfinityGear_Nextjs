@@ -39,7 +39,7 @@ export default function UpdateBrand({ brand }: Props) {
       updateBrand(brand.id, dataToUpdate);
       toast.success("Brand Update Successfully");
       router.refresh();
-      router.push("/brandes");
+      router.back();
     } catch (error) {
       if (error instanceof ValidationError) {
         error.inner.map((err) => {
