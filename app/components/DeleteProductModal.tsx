@@ -1,6 +1,6 @@
 import { XMarkIcon } from "@heroicons/react/24/outline";
-import { IconButton } from "@material-tailwind/react";
-import React, { useState } from "react";
+import { Button, IconButton } from "@material-tailwind/react";
+import React, { useState, useTransition } from "react";
 import { deleteProduct } from "../(admin)/products/action";
 import { useRouter } from "next/navigation";
 import { toast } from "react-toastify";
@@ -11,11 +11,12 @@ interface Props {
 
 export default function DeleteProductModal({ productId }: Props) {
   const router = useRouter();
+  const [isPending, startTransition] = useTransition();
   const [open, setOpen] = useState(false);
 
-  const handleDelete = () => {
+  const handleDelete = async () => {
     setOpen(false);
-    deleteProduct(productId);
+    await deleteProduct(productId);
     router.refresh();
     toast.success("Delete Product Successfully!");
   };
@@ -70,18 +71,18 @@ export default function DeleteProductModal({ productId }: Props) {
                   Are you sure you want to delete this product?
                 </p>
                 <div className="flex justify-end mt-4">
-                  <button
+                  <Button
                     onClick={handleDelete}
                     className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded mr-2"
                   >
                     Confirm
-                  </button>
-                  <button
+                  </Button>
+                  <Button
                     onClick={handleClose}
                     className="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded"
                   >
                     Cancel
-                  </button>
+                  </Button>
                 </div>
               </div>
             </div>
