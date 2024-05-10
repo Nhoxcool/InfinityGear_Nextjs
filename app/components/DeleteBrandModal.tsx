@@ -13,9 +13,9 @@ export default function DeleteBrandModal({ brandId }: Props) {
   const router = useRouter();
   const [open, setOpen] = useState(false);
 
-  const handleDelete = () => {
+  const handleDelete = async () => {
     setOpen(false);
-    deleteBrand(brandId);
+    await deleteBrand(brandId);
     router.refresh();
     toast.success("Delete Brand Successfully!");
   };
