@@ -1,9 +1,9 @@
 import { XMarkIcon } from "@heroicons/react/24/outline";
 import { IconButton } from "@material-tailwind/react";
 import React, { useState } from "react";
-import { deleteBrand } from "../(admin)/products/action";
 import { useRouter } from "next/navigation";
 import { toast } from "react-toastify";
+import { deleteBrand } from "../(admin)/brandes/action";
 
 interface Props {
   brandId: string;

@@ -3,11 +3,12 @@ import React from "react";
 import { BrandResponse, BrandToUpdate, NewBrandInfo } from "../types";
 import BrandForm, { InitialValue } from "./BrandForm";
 import { updateBrandInfoSchema } from "../utils/validationSchema";
-import { removeImageFromCloud, updateBrand } from "../(admin)/products/action";
+import { removeImageFromCloud } from "../(admin)/products/action";
 import { uploadImage } from "../utils/helper";
 import { toast } from "react-toastify";
 import { useRouter } from "next/navigation";
 import { ValidationError } from "yup";
+import { updateBrand } from "../(admin)/brandes/action";
 interface Props {
   brand: BrandResponse;
 }
