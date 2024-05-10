@@ -2,8 +2,11 @@
 import { Button, CardBody, Typography } from "@material-tailwind/react";
 import Image from "next/image";
 import Link from "next/link";
-import React from "react";
+import React, { useTransition } from "react";
 import truncate from "truncate";
+import { deleteFeaturedProduct } from "../(admin)/products/featured/action";
+import { useRouter } from "next/navigation";
+import { toast } from "react-toastify";
 
 const TABLE_HEAD = ["Image", "Detail", "Product", ""];
 
@@ -20,6 +23,14 @@ interface Products {
 }
 
 export default function FeaturedProductTable({ products }: Props) {
+  const [isPending, startTransition] = useTransition();
+  const router = useRouter();
+
+  const handleDelete = async (id: string) => {
+    await deleteFeaturedProduct(id);
+    router.refresh();
+    toast.success("Featured Product Delete Succseccfully");
+  };
   return (
     <div className="py-5">
       <CardBody className="px-0">
@@ -93,8 +104,18 @@ export default function FeaturedProductTable({ products }: Props) {
                       >
                         Edit
                       </Link>
-                      <Button color="red" ripple={false} variant="text">
-                        Delete
+                      <Button
+                        disabled={isPending}
+                        onClick={() => {
+                          startTransition(async () => {
+                            await handleDelete(item.id);
+                          });
+                        }}
+                        color="red"
+                        ripple={false}
+                        variant="text"
+                      >
+                        {isPending ? "Deleting" : "Delete"}
                       </Button>
                     </div>
                   </td>

@@ -8,7 +8,7 @@ import {
   updateProduct,
 } from "../(admin)/products/action";
 import { updateProductInfoSchema } from "../utils/validationSchema";
-import { uploadImage } from "../utils/helper";
+import { extractPublicId, uploadImage } from "../utils/helper";
 import { ValidationError } from "yup";
 import { toast } from "react-toastify";
 import { useRouter } from "next/navigation";
@@ -28,9 +28,7 @@ export default function UpdateProduct({ product }: Props) {
   };
 
   const handleImageRemove = (source: string) => {
-    const splitedData = source.split("/");
-    const lastItem = splitedData[splitedData.length - 1];
-    const publicId = lastItem.split(".")[0];
+    const publicId = extractPublicId(source);
     removeAndUpdateProductImage(product.id, publicId);
   };
 
