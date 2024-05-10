@@ -11,26 +11,17 @@ import {
 import { LatestProduct } from "../(home_route)/page";
 
 interface Props {
-  latestProducts: LatestProduct[];
+  products: LatestProduct[];
 }
 
-const ProductSlider: React.FC<Props> = ({ latestProducts }) => {
+const ProductSlider = ({ products }: Props) => {
   const settings = {
     dots: true,
     infinite: true,
     speed: 500,
     slidesToShow: 5,
     slidesToScroll: 5,
-    prevArrow: (
-      <button className="hidden md:block absolute left-0 top-1/2 transform -translate-y-1/2 bg-gray-200 rounded-full w-12 h-12 items-center justify-center">
-        <ChevronDoubleLeftIcon className="w-8 h-8 text-blue-600" />
-      </button>
-    ),
-    nextArrow: (
-      <button className="hidden md:block absolute right-0 top-1/2 transform -translate-y-1/2 bg-gray-200 rounded-full w-12 h-12 items-center justify-center">
-        <ChevronDoubleLeftIcon className="w-8 h-8 text-blue-600 transform rotate-180" />
-      </button>
-    ),
+
     responsive: [
       {
         breakpoint: 1024,
@@ -38,7 +29,7 @@ const ProductSlider: React.FC<Props> = ({ latestProducts }) => {
           slidesToShow: 2,
           slidesToScroll: 2,
           infinite: true,
-          dots: true,
+          dots: false,
           prevArrow: <></>,
           nextArrow: <></>,
         },
@@ -46,6 +37,8 @@ const ProductSlider: React.FC<Props> = ({ latestProducts }) => {
       {
         breakpoint: 600,
         settings: {
+          infinite: true,
+          dots: false,
           slidesToShow: 1,
           slidesToScroll: 1,
           prevArrow: <></>,
@@ -55,9 +48,9 @@ const ProductSlider: React.FC<Props> = ({ latestProducts }) => {
     ],
   };
 
-  return latestProducts.length >= 5 ? (
+  return products.length >= 5 ? (
     <Slider {...settings}>
-      {latestProducts.map((product) => (
+      {products.map((product) => (
         <ProductCard key={product.id} product={product} />
       ))}
     </Slider>
