@@ -19,7 +19,33 @@ const settings: Settings = {
   slidesToScroll: 1,
   arrows: false,
   autoplay: true,
-  className: "w-[500px]", // Tailwind CSS class
+  className: "w-[500px]",
+  responsive: [
+    {
+      breakpoint: 1024,
+      settings: {
+        slidesToShow: 1,
+        slidesToScroll: 1,
+        infinite: true,
+        dots: false,
+        prevArrow: <></>,
+        nextArrow: <></>,
+        className: "w-[400px]",
+      },
+    },
+    {
+      breakpoint: 600,
+      settings: {
+        infinite: true,
+        dots: false,
+        slidesToShow: 1,
+        slidesToScroll: 1,
+        prevArrow: <></>,
+        nextArrow: <></>,
+        className: "w-[280px]",
+      },
+    },
+  ],
 };
 
 export default function ProductImageGallery(props: Props) {

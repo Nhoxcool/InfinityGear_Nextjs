@@ -3,6 +3,8 @@ import startDb from "../lib/db";
 import ProductModel from "../models/ProductModel";
 import ProductSlider from "../components/ProductSlider";
 import Link from "next/link";
+import FeaturedProductsSlider from "../components/FeaturedProductsSlider";
+import FeaturedProductModel from "../models/featuredProduct";
 
 export interface LatestProduct {
   id: string;
@@ -39,22 +41,41 @@ const fetchLatestProducts = async () => {
   return JSON.stringify(productList);
 };
 
+const fetchFeaturedProducts = async () => {
+  await startDb();
+  const products = await FeaturedProductModel.find().sort("-createdAt");
+
+  return products.map((product) => {
+    return {
+      id: product._id.toString(),
+      title: product.title,
+      banner: product.banner.url,
+      link: product.link,
+      linkTitle: product.linkTitle,
+    };
+  });
+};
+
 export default async function Home() {
   const latestProducts = await fetchLatestProducts();
   const parsedProducts = JSON.parse(latestProducts) as LatestProduct[];
+  const featuredProduct = await fetchFeaturedProducts();
 
   return (
-    <div className="relative mt-5">
-      <div className="flex justify-between">
-        <h2 className="text-2xl font-bold mb-4">NewProduct</h2>
-        <Link
-          className="text-black underline hover:text-blue-800 text-lg"
-          href="/"
-        >
-          Find More
-        </Link>
+    <div className="py-4 space-y-4">
+      <FeaturedProductsSlider products={featuredProduct} />
+      <div className="relative mt-5">
+        <div className="flex justify-between">
+          <h2 className="text-2xl font-bold mb-4">NewProduct</h2>
+          <Link
+            className="text-black underline hover:text-blue-800 text-lg"
+            href="/"
+          >
+            Find More
+          </Link>
+        </div>
+        <ProductSlider products={parsedProducts} />
       </div>
-      <ProductSlider latestProducts={parsedProducts} />
     </div>
   );
 }
