@@ -3,6 +3,7 @@ import { redirect } from "next/navigation";
 import React, { ReactNode } from "react";
 import Navbar from "../components/navbar";
 import Footer from "../components/footer";
+import { BackToTopButton } from "../components/BackToTopButton";
 
 interface Props {
   children: ReactNode;
@@ -15,6 +16,7 @@ export default async function HomeLayout({ children }: Props) {
         <Navbar />
         {children}
       </div>
+      <BackToTopButton />
       <Footer />
     </div>
   );
