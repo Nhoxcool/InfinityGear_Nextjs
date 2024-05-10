@@ -6,8 +6,8 @@ import { newBrandInfoSchema } from "@/app/utils/validationSchema";
 import React from "react";
 import { ValidationError } from "yup";
 import { toast } from "react-toastify";
-import { checkBrand, createBrand } from "../../products/action";
 import { useRouter } from "next/navigation";
+import { checkBrand, createBrand } from "../action";
 
 export default function Create() {
   const router = useRouter();

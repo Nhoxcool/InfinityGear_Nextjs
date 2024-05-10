@@ -62,34 +62,6 @@ export const createProduct = async (info: NewProduct) => {
   }
 };
 
-export const checkBrand = async (brand: string, category: string) => {
-  try {
-    await startDb();
-    const existingBrand = await BrandModel.findOne({
-      brand: brand,
-      category: category,
-    });
-
-    if (existingBrand) {
-      return false;
-    }
-    return true;
-  } catch (error) {
-    console.log((error as any).message);
-    throw new Error("Something went wrong, can not create brand!");
-  }
-};
-
-export const createBrand = async (info: NewBrand) => {
-  try {
-    await startDb();
-    await BrandModel.create({ ...info });
-  } catch (error) {
-    console.log((error as any).message);
-    throw new Error("Something went wrong, can not create brand!");
-  }
-};
-
 export const removeImageFromCloud = async (publicId: string) => {
   await cloudinary.uploader.destroy(publicId);
 };
@@ -137,19 +109,6 @@ export const updateProduct = async (
   }
 };
 
-export const updateBrand = async (id: string, brandInfo: BrandToUpdate) => {
-  try {
-    await startDb();
-
-    await BrandModel.findByIdAndUpdate(id, {
-      ...brandInfo,
-    });
-  } catch (error) {
-    console.log("Error while updating product, ", (error as any).message);
-    throw error;
-  }
-};
-
 export const deleteProduct = async (id: string) => {
   try {
     await startDb();
@@ -166,20 +125,6 @@ export const deleteProduct = async (id: string) => {
     await ProductModel.findByIdAndDelete(id);
   } catch (error) {
     console.log("Error while deleting product, ", (error as any).message);
-    throw error;
-  }
-};
-
-export const deleteBrand = async (id: string) => {
-  try {
-    await startDb();
-    const deleteBrand = (await BrandModel.findById(id)) as BrandResponse;
-
-    removeImageFromCloud(deleteBrand?.logo.id);
-
-    await BrandModel.findByIdAndDelete(id);
-  } catch (error) {
-    console.log("Error while deleting brand, ", (error as any).message);
     throw error;
   }
 };
