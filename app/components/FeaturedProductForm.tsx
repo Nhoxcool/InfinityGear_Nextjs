@@ -12,7 +12,12 @@ import React, {
 import * as Yup from "yup";
 import { toast } from "react-toastify";
 import { uploadImage } from "../utils/helper";
-import { createFeaturedProduct } from "../(admin)/products/featured/action";
+import {
+  createFeaturedProduct,
+  updateFeaturedProduct,
+} from "../(admin)/products/featured/action";
+import UpdateFeaturedProduct from "../(admin)/products/featured/update/page";
+import { FeaturedProductForUpdate } from "../types";
 
 export interface FeaturedProduct {
   file?: File;
@@ -85,7 +90,33 @@ export default function FeaturedProductForm({ initialValue }: Props) {
     } else setFeaturedProduct({ ...featuredProduct, [name]: value });
   };
 
-  const handleUpdate = () => {};
+  const handleUpdate = async () => {
+    try {
+      const { file, link, linkTitle, title } =
+        await oldFeaturedProductValidationSchema.validate(
+          { ...featuredProduct },
+          { abortEarly: false }
+        );
+
+      const data: FeaturedProductForUpdate = { link, linkTitle, title };
+
+      if (file) {
+        const banner = await uploadImage(file);
+        data.banner = banner;
+      }
+
+      await updateFeaturedProduct(initialValue.id, data);
+      router.refresh();
+      toast.success("Featured Update add successfully!");
+      router.back();
+    } catch (error) {
+      if (error instanceof Yup.ValidationError) {
+        error.inner.map((err) => {
+          toast.error(err.message);
+        });
+      }
+    }
+  };
 
   const handleCreate = async () => {
     try {
