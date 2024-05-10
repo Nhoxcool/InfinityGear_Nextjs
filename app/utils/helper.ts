@@ -28,3 +28,9 @@ export const formatPrice = (amount: number) => {
   });
   return formatter.format(amount);
 };
+
+export const extractPublicId = (url: string) => {
+  const splitedData = url.split("/");
+  const lastItem = splitedData[splitedData.length - 1];
+  return lastItem.split(".")[0];
+};
