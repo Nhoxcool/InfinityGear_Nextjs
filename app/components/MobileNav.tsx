@@ -29,25 +29,13 @@ import useAuth from "@hooks/useAuth";
 import { MenuItems } from "@app/types";
 import Image from "next/image";
 import SignOutButton from "./SignOutButton";
+import { CategoryItems } from "../utils/categoriesItems";
 
 interface Props {
   open: boolean;
   onClose(): void;
   menuItems: MenuItems[];
 }
-
-export const CategoryItems = [
-  {
-    href: "/PC",
-    icon: <ComputerDesktopIcon className="h-4 w-4" />,
-    label: "PC",
-  },
-  {
-    href: "/Laptop",
-    icon: <CpuChipIcon className="h-4 w-4" />,
-    label: "Laptop",
-  },
-];
 
 export function MobileNav({ open, onClose, menuItems }: Props) {
   const { isAdmin, loggedIn } = useAuth();
