@@ -8,6 +8,7 @@ import {
   SparklesIcon,
   ShoppingBagIcon,
   TagIcon,
+  UserGroupIcon,
 } from "@heroicons/react/24/outline";
 import SignOutButton from "@components/SignOutButton";
 
@@ -29,6 +30,13 @@ const AdminSidebar = ({ children }: Props) => {
             <Link className="flex items-center space-x-1" href="/dashboard">
               <Squares2X2Icon className="w-4 h-4" />
               <span>Dashboard</span>
+            </Link>
+            <hr className="w-full " />
+          </li>
+          <li>
+            <Link className="flex items-center space-x-1" href="/users">
+              <UserGroupIcon className="w-4 h-4" />
+              <span>Users</span>
             </Link>
             <hr className="w-full " />
           </li>
