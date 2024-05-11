@@ -23,8 +23,6 @@ export interface User {
   avatar?: string;
 }
 
-const TABLE_HEAD = ["Email", "Name", "Role", "DELETE"];
-
 interface Props {
   users: User[];
   currentPageNo: number;
@@ -33,13 +31,14 @@ interface Props {
 }
 
 export default function UserTable(props: Props) {
+  const router = useRouter();
   const [selectedRole, setSelectedRole] = useState<string>("all");
   const [selectedRoles, setSelectedRoles] = useState<{
     [userId: string]: string;
   }>({});
   const [isSelectedUserId, SetIsSelectedUserId] = useState<String>();
   const [isUpdating, setisUpdating] = useState<boolean>(false);
-  const router = useRouter();
+  let TABLE_HEAD = ["Email", "Name", "Role", "DELETE", "UPDATE"];
   const {
     users: users = [],
     currentPageNo,
@@ -194,6 +193,11 @@ export default function UserTable(props: Props) {
                       </select>
                     </div>
                   </td>
+
+                  <td className={classes}>
+                    <DeleteUserModal userId={id} />
+                  </td>
+
                   {selectedRoles[id] !== role && isSelectedUserId === id ? (
                     <td className="p-4">
                       <Button
@@ -201,14 +205,10 @@ export default function UserTable(props: Props) {
                         onClick={() => handleRoleUpdate(id)}
                         color="blue"
                       >
-                        {isUpdating ? "Submit" : "Update"}{" "}
+                        {isUpdating ? "Update" : "Updating...."}{" "}
                       </Button>
                     </td>
                   ) : null}
-
-                  <td className={classes}>
-                    <DeleteUserModal userId={id} />
-                  </td>
                 </tr>
               );
             })}
