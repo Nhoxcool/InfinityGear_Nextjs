@@ -191,7 +191,7 @@ export default function FeaturedProductForm({ initialValue }: Props) {
       <div className="flex space-x-4">
         <Input label="Link" name="link" value={link} onChange={handleChange} />
         <Input
-          label="Lik Title"
+          label="Link Title"
           name="linkTitle"
           value={linkTitle}
           onChange={handleChange}
