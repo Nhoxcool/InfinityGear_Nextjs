@@ -1,23 +1,24 @@
-"use client";
+'use client';
 
-import { XMarkIcon } from "@heroicons/react/24/outline";
-import { Button, Input } from "@material-tailwind/react";
-import AuthFormContainer from "@components/AuthFormContainer";
-import { filterFormikErrors } from "@/app/utils/formikHelpers";
-import React from "react";
-import { useFormik } from "formik";
-import Link from "next/link";
-import * as yup from "yup";
-import { signIn } from "next-auth/react";
-import { toast } from "react-toastify";
-import { useRouter } from "next/navigation";
+import { XMarkIcon } from '@heroicons/react/24/outline';
+import { Button, Input } from '@material-tailwind/react';
+import AuthFormContainer from '@components/AuthFormContainer';
+import { filterFormikErrors } from '@/app/utils/formikHelpers';
+import React from 'react';
+import { useFormik } from 'formik';
+import Link from 'next/link';
+import * as yup from 'yup';
+import { signIn } from 'next-auth/react';
+import { toast } from 'react-toastify';
+import { useRouter } from 'next/navigation';
+import Image from 'next/image';
 
 const validationSchema = yup.object().shape({
-  email: yup.string().email("Invalid email").required("Email is required"),
+  email: yup.string().email('Invalid email').required('Email is required'),
   password: yup
     .string()
-    .min(8, "Password must be at least 8 characters")
-    .required("Password is required"),
+    .min(8, 'Password must be at least 8 characters')
+    .required('Password is required'),
 });
 
 export default function SignIn() {
@@ -31,16 +32,16 @@ export default function SignIn() {
     handleBlur,
     handleChange,
   } = useFormik({
-    initialValues: { email: "", password: "" },
+    initialValues: { email: '', password: '' },
     validationSchema,
     onSubmit: async (values, actions) => {
-      const signInRes = await signIn("credentials", {
+      const signInRes = await signIn('credentials', {
         ...values,
         redirect: false,
       });
 
-      if (signInRes?.error === "CredentialsSignin") {
-        toast.error("Email/Password mismatch!");
+      if (signInRes?.error === 'CredentialsSignin') {
+        toast.error('Email/Password mismatch!');
       }
 
       if (!signInRes?.error) {
@@ -60,13 +61,22 @@ export default function SignIn() {
 
   return (
     <AuthFormContainer title="Sign In" onSubmit={handleSubmit}>
+      <div className="flex justify-center items-center">
+        <Image
+          width={200}
+          height={200}
+          src="/image/logo_no_bg.png"
+          alt="logo image"
+        />
+      </div>
+
       <Input
         name="email"
         label="Email"
         value={email}
         onChange={handleChange}
         onBlur={handleBlur}
-        error={error("email")}
+        error={error('email')}
       />
       <Input
         name="password"
@@ -74,17 +84,20 @@ export default function SignIn() {
         value={password}
         onChange={handleChange}
         onBlur={handleBlur}
-        error={error("password")}
+        error={error('password')}
         type="password"
       />
       <Button type="submit" className="w-full" disabled={isSubmitting}>
         Sign in
       </Button>
       <div className="flex items-center justify-between">
-        <Link href="/auth/signup" className="underline">
+        <Link href="/auth/signup" className="underline hover:text-blue-700">
           Sign up
         </Link>
-        <Link href="/auth/forget-password" className="underline">
+        <Link
+          href="/auth/forget-password"
+          className="underline hover:text-blue-700 "
+        >
           Forget password
         </Link>
       </div>
