@@ -49,6 +49,8 @@ export default function ProductCard({ product }: Props) {
     const { error } = await res.json();
     if (!res.ok && error) toast.error(error);
     toast.success("Add to cart successfully");
+
+    router.refresh();
   };
   return (
     <Card className="w-full p-5 mr-5">
