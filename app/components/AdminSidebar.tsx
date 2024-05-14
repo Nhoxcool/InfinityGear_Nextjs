@@ -13,6 +13,7 @@ import {
 import SignOutButton from '@components/SignOutButton';
 import Image from 'next/image';
 
+
 interface Props {
   children: ReactNode;
 }
@@ -107,6 +108,7 @@ const AdminSidebar = ({ children }: Props) => {
               <hr className="w-full " />
             </li>
           </div>
+
         </ul>
 
         <div>

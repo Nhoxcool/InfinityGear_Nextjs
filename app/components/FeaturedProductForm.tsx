@@ -192,6 +192,7 @@ export default function FeaturedProductForm({ initialValue }: Props) {
         <Input label="Link" name="link" value={link} onChange={handleChange} />
         <Input
           label="Link Title"
+
           name="linkTitle"
           value={linkTitle}
           onChange={handleChange}
