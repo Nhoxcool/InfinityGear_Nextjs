@@ -9,10 +9,10 @@ import {
   ShoppingBagIcon,
   TagIcon,
   UserGroupIcon,
+  PowerIcon,
 } from '@heroicons/react/24/outline';
 import SignOutButton from '@components/SignOutButton';
 import Image from 'next/image';
-
 
 interface Props {
   children: ReactNode;
@@ -20,8 +20,8 @@ interface Props {
 
 const AdminSidebar = ({ children }: Props) => {
   return (
-    <div className="flex">
-      <div className="flex flex-col justify-between bg-black h-screen sticky top-0 w-64 p-10">
+    <div className="flex font-semibold">
+      <div className="flex flex-col justify-between bg-[#51AFFF] h-screen sticky top-0 w-64 p-10">
         <ul className="space-y-4 text-white">
           <li>
             <Link href="/">
@@ -108,13 +108,15 @@ const AdminSidebar = ({ children }: Props) => {
               <hr className="w-full " />
             </li>
           </div>
-
         </ul>
 
         <div>
           <SignOutButton>
-            <div className=" mx-auto p-3 bg-red-500 rounded-lg w-fit">
-              <div className="cursor-pointer text-white ">Logout</div>
+            <div className=" mx-auto">
+              <div className="cursor-pointer text-white flex flex-row items-center gap-2 hover:text-red-500">
+                <PowerIcon className="h-4 w-4" />
+                Logout
+              </div>
             </div>
           </SignOutButton>
         </div>
