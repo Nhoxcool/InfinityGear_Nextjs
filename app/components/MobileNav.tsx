@@ -15,12 +15,7 @@ import {
   XMarkIcon,
   RectangleGroupIcon,
   ChevronDownIcon,
-  PresentationChartBarIcon,
   ChevronRightIcon,
-  UserCircleIcon,
-  ShoppingBagIcon,
-  ComputerDesktopIcon,
-  CpuChipIcon,
   ArchiveBoxIcon,
 } from "@heroicons/react/24/outline";
 import { PowerIcon } from "@heroicons/react/24/solid";
