@@ -3,12 +3,11 @@ import ProfileForm from "@/app/components/ProfileForm";
 import startDb from "@/app/lib/db";
 import UserModel from "@/app/models/userModel";
 import { auth } from "@/auth";
-import { avatar } from "@material-tailwind/react";
 import Link from "next/link";
 import { redirect } from "next/navigation";
 import React from "react";
 
-export const fetchUserProfile = async () => {
+const fetchUserProfile = async () => {
   const session = await auth();
   if (!session) return redirect("/auth/signin");
 
@@ -20,7 +19,6 @@ export const fetchUserProfile = async () => {
     name: user.name,
     email: user.email,
     avatar: user.avatar?.url,
-    avatarId: user.avatar?.id,
     verified: user.verified,
   };
 };
@@ -38,7 +36,6 @@ export default async function Profile() {
             email={profile.email}
             name={profile.name}
             avatar={profile.avatar}
-            avatarId={profile.avatarId}
           />
         </div>
 
