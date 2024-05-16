@@ -1,4 +1,6 @@
 import nodemailer from 'nodemailer';
+import path from 'path';
+import { generateTemplate } from '../mail/template';
 
 type profile = { name: string; email: string };
 
@@ -23,59 +25,96 @@ const generateMailTransporter = () => {
 
 const sendEmailVerificationLink = (profile: profile, linkUrl: string) => {
   const transport = generateMailTransporter();
+  const message = `Hi ${profile.name}! Tap the button below to confirm your email address. If you didn't create an account with Infinity Gear, you can safely delete this email.`;
 
   transport.sendMail({
     from: 'verification@infinitygear.com',
     to: profile.email,
-    html: `  <body align="center" style="background-color:azure;">
-    <img src="" alt="logo">
-      <h1 class="title">Comfirm your email address </h1>
-      <p align="left" style="font-family: 'Source Sans Pro', Helvetica, Arial, sans-serif; font-size: 16px;">Tap the button below to confirm your email address. If you didn't create an account with <a href="/">Infinity Gear</a> , you can safely delete this email. 
-      </p>
-      <div align="center" style="font-family: 'Source Sans Pro', Helvetica, Arial, sans-serif; font-size: 16px;">
-              <a  href="${linkUrl}" target="_blank" style="  background-color:MidnightBlue;display: inline-block; padding: 16px 36px; font-family: 'Source Sans Pro', Helvetica, Arial, sans-serif; font-size: 16px; color: #ffffff; text-decoration: none; border-radius: 6px; margin-top-bottom: 10px">Verify your email</a>
-      </div>
-      
-      <div align="left" style="font-family: 'Source Sans Pro', Helvetica, Arial, sans-serif; font-size: 16px;">
-      <p >
-        If that doesn't work, copy and paste the following link in your browser: 
-      </p>
-      
-      <a href=" ${linkUrl}">
-        <p >
-        ${linkUrl}
-        </p>
-      </a>
-      <p>
-        Cheer,
-      </p>
-      <p>
-        Infinity Gear
-      </p>
-      </div>
-      
-  </body>
-`,
+    subject: 'Vefify email',
+    html: generateTemplate({
+      title: 'Comfirm your email address',
+      message: message,
+      logo: 'cid:logo',
+      banner: 'cid:verify',
+      link: linkUrl,
+      btnTitle: 'Verify your email',
+    }),
+    attachments: [
+      {
+        filename: 'logo.png',
+        path: path.join(process.cwd(), '/app/mail/image/logo.png'),
+        cid: 'logo',
+      },
+      {
+        filename: 'verify.png',
+        path: path.join(process.cwd(), '/app/mail/image/verify.png'),
+        cid: 'verify',
+      },
+    ],
   });
 };
 
 const sendForgetPasswordLink = (profile: profile, linkUrl: string) => {
   const transport = generateMailTransporter();
 
+  const message = `Hi ${profile.name}! Seems like you forgot your password for your Infinity Gear account. If this is true, click the button below to reset your password.`;
+
   transport.sendMail({
-    from: 'verification@infinitygear.com',
+    from: 'Passwordlink@infinitygear.com',
     to: profile.email,
-    html: `<h1>Click on this link to reset your password <a href="${linkUrl}">This link</a></h1>`,
+    subject: 'Reset password',
+    html: generateTemplate({
+      title: 'Reset your password',
+      message: message,
+      logo: 'cid:logo',
+      banner: 'cid:forget',
+      link: linkUrl,
+      btnTitle: 'Reset your password',
+    }),
+    attachments: [
+      {
+        filename: 'logo.png',
+        path: path.join(process.cwd(), '/app/mail/image/logo.png'),
+        cid: 'logo',
+      },
+      {
+        filename: 'forget.png',
+        path: path.join(process.cwd(), '/app/mail/image/forget.png'),
+        cid: 'forget',
+      },
+    ],
   });
 };
 
 const sendUpdatePasswordComfirmation = (profile: profile) => {
   const transport = generateMailTransporter();
 
+  const message = `Hi ${profile.name}! We successfully successfully changed your password. Click the button bellow to login.`;
+
   transport.sendMail({
-    from: 'verification@infinitygear.com',
+    from: 'Passwordlink@infinitygear.com',
     to: profile.email,
-    html: `<h1>We changed your password <a href="${process.env.SIGN_IN_URL}"></a></h1>`,
+    subject: 'Changed password',
+    html: generateTemplate({
+      title: 'Successfully changed your password',
+      message: message,
+      logo: 'cid:logo',
+      banner: 'cid:confirm',
+      link: '/',
+      btnTitle: 'Login now',
+    }),
+    attachments: [
+      {
+        filename: 'logo.png',
+        path: path.join(process.cwd(), '/app/mail/image/logo.png'),
+        cid: 'logo',
+      },
+      {
+        filename: 'confirm.png',
+        path: path.join(process.cwd(), '/app/mail/image/confirm.png'),
+        cid: 'confirm',
+      },
+    ],
   });
 };
 
