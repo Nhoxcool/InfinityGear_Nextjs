@@ -37,6 +37,7 @@ export default async function Profile() {
             email={profile.email}
             name={profile.name}
             avatar={profile.avatar}
+            avatarId={profile.avatarId}
           />
         </div>
 
