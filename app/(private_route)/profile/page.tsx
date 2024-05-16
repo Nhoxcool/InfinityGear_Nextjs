@@ -20,6 +20,7 @@ const fetchUserProfile = async () => {
     email: user.email,
     avatar: user.avatar?.url,
     verified: user.verified,
+    avatarId: user.avatar?.id,
   };
 };
 
@@ -36,6 +37,7 @@ export default async function Profile() {
             email={profile.email}
             name={profile.name}
             avatar={profile.avatar}
+            avatarId={profile.avatarId}
           />
         </div>
 
