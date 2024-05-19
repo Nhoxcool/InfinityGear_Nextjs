@@ -15,16 +15,16 @@ export const ThumbnailSlider = ({ images, currentSlide, goToSlide }: Props) => {
     dots: false,
     infinite: true,
     speed: 500,
-    slidesToShow: 5,
-    slidesToScroll: 5,
-    arrows: true,
+    slidesToShow: 4,
+    slidesToScroll: 4,
+    arrows: false,
     className: "w-[550px]",
     responsive: [
       {
         breakpoint: 1024,
         settings: {
-          slidesToShow: 5,
-          slidesToScroll: 5,
+          slidesToShow: 4,
+          slidesToScroll: 4,
         },
       },
       {
