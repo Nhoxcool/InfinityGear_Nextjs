@@ -42,7 +42,7 @@ const settings: Settings = {
         slidesToScroll: 1,
         prevArrow: <></>,
         nextArrow: <></>,
-        className: "w-[280px]",
+        className: "w-[280px] ml-6",
       },
     },
   ],
@@ -87,7 +87,7 @@ export default function ProductImageGallery(props: Props) {
         ))}
       </Slider>
 
-      {images.length > 5 ? (
+      {images.length > 4 ? (
         <ThumbnailSlider
           images={images}
           currentSlide={currentSlide}
