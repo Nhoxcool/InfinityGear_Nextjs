@@ -17,7 +17,7 @@ const settings: Settings = {
   speed: 100,
   slidesToShow: 1,
   slidesToScroll: 1,
-  arrows: false,
+  arrows: true,
   autoplay: true,
   className: "w-[500px]",
   responsive: [
@@ -28,8 +28,7 @@ const settings: Settings = {
         slidesToScroll: 1,
         infinite: true,
         dots: false,
-        prevArrow: <></>,
-        nextArrow: <></>,
+        arrows: false,
         className: "w-[400px]",
       },
     },
@@ -40,13 +39,27 @@ const settings: Settings = {
         dots: false,
         slidesToShow: 1,
         slidesToScroll: 1,
-        prevArrow: <></>,
-        nextArrow: <></>,
+        arrows: false,
         className: "w-[280px] ml-6",
       },
     },
   ],
 };
+
+// Pixel GIF code adapted from https://stackoverflow.com/a/33919020/266535
+const keyStr =
+  "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=";
+
+const triplet = (e1: number, e2: number, e3: number) =>
+  keyStr.charAt(e1 >> 2) +
+  keyStr.charAt(((e1 & 3) << 4) | (e2 >> 4)) +
+  keyStr.charAt(((e2 & 15) << 2) | (e3 >> 6)) +
+  keyStr.charAt(e3 & 63);
+
+const rgbDataURL = (r: number, g: number, b: number) =>
+  `data:image/gif;base64,R0lGODlhAQABAPAA${
+    triplet(0, r, g) + triplet(b, 255, 255)
+  }/yH5BAAAAAAALAAAAAABAAEAAAICRAEAOw==`;
 
 export default function ProductImageGallery(props: Props) {
   const [currentSlide, setCurrentSlide] = useState(0);
@@ -81,6 +94,8 @@ export default function ProductImageGallery(props: Props) {
                 layout="fill"
                 objectFit="contain"
                 className="w-auto h-96 m-auto"
+                placeholder="blur"
+                blurDataURL={rgbDataURL(7, 176, 238)}
               />
             </div>
           </div>
