@@ -69,7 +69,18 @@ const fetchCartProducts = async () => {
 
 export default async function Cart() {
   const cart = await fetchCartProducts();
-  if (!cart) return <div>Not found</div>;
+  if (!cart)
+    return (
+      <div className="py-4">
+        <div className="mb-4">
+          <h1 className="text-2xl font-semibold">Your Cart Details</h1>
+          <hr />
+        </div>
+        <h1 className="text-center font-semibold text-2xl opacity-40 py-10">
+          Your cart is empty!
+        </h1>
+      </div>
+    );
 
   return (
     <CartItems
