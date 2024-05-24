@@ -45,10 +45,8 @@ export default async function Products({ searchParams }: Props) {
 
   const products = await fetchProducts(+page, PRODUCTS_PER_PAGE);
   let hasMore = true;
-
   if (products.length < PRODUCTS_PER_PAGE) hasMore = false;
   else hasMore = true;
-  aaaaaaaaaaa;
   return (
     <div>
       <ProductTable

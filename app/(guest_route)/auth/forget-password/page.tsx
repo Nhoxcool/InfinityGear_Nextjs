@@ -1,16 +1,17 @@
-"use client";
-import React from "react";
-import FormContainer from "@components/AuthFormContainer";
-import { Button, Input } from "@material-tailwind/react";
-import { useFormik } from "formik";
-import * as yup from "yup";
-import { XMarkIcon } from "@heroicons/react/24/outline";
-import { filterFormikErrors } from "@/app/utils/formikHelpers";
-import Link from "next/link";
-import { toast } from "react-toastify";
+'use client';
+import React from 'react';
+import FormContainer from '@components/AuthFormContainer';
+import { Button, Input } from '@material-tailwind/react';
+import { useFormik } from 'formik';
+import * as yup from 'yup';
+import { XMarkIcon } from '@heroicons/react/24/outline';
+import { filterFormikErrors } from '@/app/utils/formikHelpers';
+import Link from 'next/link';
+import { toast } from 'react-toastify';
+import Image from 'next/image';
 
 const validationSchema = yup.object().shape({
-  email: yup.string().email("Invalid email").required("Email is required"),
+  email: yup.string().email('Invalid email').required('Email is required'),
 });
 
 export default function ForgetPassword() {
@@ -23,12 +24,12 @@ export default function ForgetPassword() {
     handleBlur,
     handleChange,
   } = useFormik({
-    initialValues: { email: "" },
+    initialValues: { email: '' },
     validationSchema,
     onSubmit: async (values, actions) => {
       actions.setSubmitting(true);
-      const res = await fetch("/api/users/forget-password", {
-        method: "POST",
+      const res = await fetch('/api/users/forget-password', {
+        method: 'POST',
         body: JSON.stringify(values),
       });
 
@@ -56,20 +57,32 @@ export default function ForgetPassword() {
 
   return (
     <FormContainer title="Forget Password" onSubmit={handleSubmit}>
+      <div className="flex justify-center items-center">
+        <Image
+          width={200}
+          height={200}
+          src="/image/logo_no_bg.png"
+          alt="logo image"
+        />
+      </div>
       <Input
         name="email"
         label="Email"
         value={email}
         onChange={handleChange}
         onBlur={handleBlur}
-        error={error("email")}
+        error={error('email')}
       />
       <Button type="submit" className="w-full" disabled={isSubmitting}>
         Send Link
       </Button>
       <div className="flex items-center justify-between">
-        <Link href="/auth/signin">Sign in</Link>
-        <Link href="/auth/signup">Sign up</Link>
+        <Link href="/auth/signin" className=" underline hover:text-blue-700">
+          Sign in
+        </Link>
+        <Link href="/auth/signup" className="underline hover:text-blue-700">
+          Sign up
+        </Link>
       </div>
       <div className="">
         {errorsToRender.map((item) => {

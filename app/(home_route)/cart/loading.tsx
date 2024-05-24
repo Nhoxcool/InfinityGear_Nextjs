@@ -11,11 +11,17 @@ export default function BrandLoading() {
             return (
               <div
                 key={index}
-                className=" flex flex-row justify-between w-full min-w-full gap-3"
+                className=" flex flex-row justify-between min-w-full gap-3"
               >
-                <div className=" p-4  flex flex-col gap-3">
-                  <div className=" w-36 h-28 bg-gray-300 " />
-                  <div className=" w-36 h-13 bg-gray-300 " />
+                <div className=" mx-auto p-4 min-w-full grid grid-cols-4 gap-3">
+                  <div className="w-36 h-28 bg-gray-300 justify-self-end" />
+                  <div className=" col-span-2 w-full flex flex-col gap-3">
+                    <div className=" w-full h-10 bg-gray-300 " />
+                    <div className=" w-full h-3 bg-gray-300 " />
+                    <div className=" w-full h-3 bg-gray-300 " />
+                    <div className=" w-full h-3 bg-gray-300 " />
+                  </div>
+                  <div className=" w-5 h-5 bg-gray-300 " />
                 </div>
               </div>
             );
