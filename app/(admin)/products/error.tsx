@@ -1,6 +1,8 @@
-"use client"; // Error components must be Client Components
+'use client'; // Error components must be Client Components
 
-import { useEffect } from "react";
+import { Typography } from '@material-tailwind/react';
+import Image from 'next/image';
+import { useEffect } from 'react';
 
 export default function Error({
   error,
@@ -15,12 +17,17 @@ export default function Error({
 
   return (
     <div>
-      <h2>Something went wrong!</h2>
-      <h2>
-        Cause: <span className="text-red-400">{error.message}</span>
-      </h2>
-
-      <button onClick={() => reset()}>Try again</button>
+      <div className=" items-center mx-auto text-center flex flex-col gap-5 mt-10">
+        <Typography variant="h3">
+          Opps something went wrong, please try again later!
+        </Typography>
+        <Image
+          height={400}
+          width={400}
+          src={'/image/error.png'}
+          alt="error img"
+        />
+      </div>
     </div>
   );
 }
