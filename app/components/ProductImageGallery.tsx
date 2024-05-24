@@ -41,8 +41,6 @@ const settings: Settings = {
         slidesToScroll: 1,
         arrows: false,
         className: "w-[280px] ml-6",
-        arrows: false,
-        className: "w-[280px] ml-6",
       },
     },
   ],
