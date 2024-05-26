@@ -1,19 +1,20 @@
-import CartItems from "@/app/components/CartItems";
-import startDb from "@/app/lib/db";
-import CartModel from "@/app/models/CartModel";
-import { auth } from "@/auth";
+import startDb from "./db";
+import CartModel from "../models/CartModel";
 import { Types } from "mongoose";
-import React from "react";
+import { CartItems } from "../types";
 
-const fetchCartProducts = async () => {
-  const session = await auth();
-  if (!session?.user) {
-    return null;
-  }
-
+export const getCartItems = async (
+  userId: string,
+  cartId: string
+): Promise<CartItems> => {
   await startDb();
   const [cartItems] = await CartModel.aggregate([
-    { $match: { userId: new Types.ObjectId(session.user.id) } },
+    {
+      $match: {
+        userId: new Types.ObjectId(userId),
+        _id: new Types.ObjectId(cartId),
+      },
+    },
     { $unwind: "$items" },
     {
       $lookup: {
@@ -65,28 +66,3 @@ const fetchCartProducts = async () => {
 
   return cartItems;
 };
-
-export default async function Cart() {
-  const cart = await fetchCartProducts();
-  if (!cart)
-    return (
-      <div className="py-4">
-        <div className="mb-4">
-          <h1 className="text-2xl font-semibold">Your Cart Details</h1>
-          <hr />
-        </div>
-        <h1 className="text-center font-semibold text-2xl opacity-40 py-10">
-          Your cart is empty!
-        </h1>
-      </div>
-    );
-
-  return (
-    <CartItems
-      cartTotal={cart.totalPrice}
-      cartId={cart.id}
-      products={cart.products}
-      totalQty={cart.totalQty}
-    />
-  );
-}
