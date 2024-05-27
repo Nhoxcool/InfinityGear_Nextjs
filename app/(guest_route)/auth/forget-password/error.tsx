@@ -16,14 +16,14 @@ export default function Error({
   }, [error]);
 
   return (
-    <div className=" flex h-full">
-      <div className=" items-center m-auto  text-center flex flex-col gap-5">
+    <div>
+      <div className=" items-center mx-auto text-center flex flex-col gap-5 mt-10">
         <Typography variant="h3">
           Opps something went wrong, please try again later!
         </Typography>
         <Image
-          height={200}
-          width={200}
+          height={400}
+          width={400}
           src={'/image/error.png'}
           alt="error img"
         />

@@ -1,8 +1,8 @@
-import ProductTable, { Product } from "@/app/components/ProductTable";
-import startDb from "@/app/lib/db";
-import ProductModel from "@/app/models/ProductModel";
-import { redirect } from "next/navigation";
-import React from "react";
+import ProductTable, { Product } from '@/app/components/ProductTable';
+import startDb from '@/app/lib/db';
+import ProductModel from '@/app/models/ProductModel';
+import { redirect } from 'next/navigation';
+import React from 'react';
 
 const fetchProducts = async (
   pageNo: number,
@@ -11,7 +11,7 @@ const fetchProducts = async (
   const skipCount = (pageNo - 1) * perPage;
   await startDb();
   const products = await ProductModel.find()
-    .sort("-createdAt")
+    .sort('-createdAt')
     .skip(skipCount)
     .limit(perPage);
   return products.map((products) => {
@@ -39,16 +39,14 @@ interface Props {
 }
 
 export default async function Products({ searchParams }: Props) {
-  const { page = "1" } = searchParams;
+  const { page = '1' } = searchParams;
 
-  if (isNaN(+page)) return redirect("/404");
+  if (isNaN(+page)) return redirect('/404');
 
   const products = await fetchProducts(+page, PRODUCTS_PER_PAGE);
   let hasMore = true;
-
   if (products.length < PRODUCTS_PER_PAGE) hasMore = false;
   else hasMore = true;
-
   return (
     <div>
       <ProductTable
