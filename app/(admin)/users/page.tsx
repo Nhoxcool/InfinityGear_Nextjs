@@ -1,15 +1,15 @@
-import UserTable, { User } from "@/app/components/UserTable";
-import startDb from "@/app/lib/db";
-import BrandModel from "@/app/models/BrandeModel";
-import UserModel from "@/app/models/userModel";
-import { redirect } from "next/navigation";
-import React from "react";
+import UserTable, { User } from '@/app/components/UserTable';
+import startDb from '@/app/lib/db';
+import BrandModel from '@/app/models/BrandeModel';
+import UserModel from '@/app/models/userModel';
+import { redirect } from 'next/navigation';
+import React from 'react';
 
 const fetchUsers = async (pageNo: number, perPage: number): Promise<User[]> => {
   const skipCount = (pageNo - 1) * perPage;
   await startDb();
   const users = await UserModel.find()
-    .sort("-createdAt")
+    .sort('-createdAt')
     .skip(skipCount)
     .limit(perPage);
   return users.map((users) => {
@@ -30,9 +30,9 @@ interface Props {
 }
 
 export default async function Brandes({ searchParams }: Props) {
-  const { page = "1" } = searchParams;
+  const { page = '1' } = searchParams;
 
-  if (isNaN(+page)) return redirect("/404");
+  if (isNaN(+page)) return redirect('/404');
 
   const users = await fetchUsers(+page, USER_PER_PAGE);
   let hasMore = true;

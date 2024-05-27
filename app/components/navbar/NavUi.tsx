@@ -1,18 +1,19 @@
-"use client";
-import Link from "next/link";
-import React from "react";
+'use client';
+import Link from 'next/link';
+import React from 'react';
 import {
   Navbar as MaterialNav,
   IconButton,
   Spinner,
-} from "@material-tailwind/react";
-import { Bars3Icon, XMarkIcon } from "@heroicons/react/24/outline";
-import ProfileMenu from "../ProfileMenu";
-import { MobileNav } from "../MobileNav";
-import CartIcon from "../CartIcon";
-import { UserCircleIcon, ShoppingBagIcon } from "@heroicons/react/24/outline";
-import useAuth from "@hooks/useAuth";
-import Image from "next/image";
+  Typography,
+} from '@material-tailwind/react';
+import { Bars3Icon, XMarkIcon } from '@heroicons/react/24/outline';
+import ProfileMenu from '../ProfileMenu';
+import { MobileNav } from '../MobileNav';
+import CartIcon from '../CartIcon';
+import { UserCircleIcon, ShoppingBagIcon } from '@heroicons/react/24/outline';
+import useAuth from '@hooks/useAuth';
+import Image from 'next/image';
 
 interface Props {
   cartItemsCount: number;
@@ -21,14 +22,14 @@ interface Props {
 
 export const menuItems = [
   {
-    href: "/profile",
+    href: '/profile',
     icon: <UserCircleIcon className="h-4 w-4" />,
-    label: "My Profile",
+    label: 'My Profile',
   },
   {
-    href: "/profile/orders",
+    href: '/profile/orders',
     icon: <ShoppingBagIcon className="h-4 w-4" />,
-    label: "Orders",
+    label: 'Orders',
   },
 ];
 
@@ -38,26 +39,26 @@ export default function NavUI({ cartItemsCount, avatar }: Props) {
 
   React.useEffect(() => {
     const onResize = () => window.innerWidth >= 960 && setOpen(false);
-    window.addEventListener("resize", onResize);
-    return () => window.removeEventListener("resize", onResize);
+    window.addEventListener('resize', onResize);
+    return () => window.removeEventListener('resize', onResize);
   }, []);
 
   return (
     <>
       <MaterialNav className="mx-auto max-w-screen-xl px-4 py-2">
         <div className="flex items-center justify-between text-blue-gray-900">
-          <div className="flex flex-row items-center">
-            <Image
-              width={50}
-              height={50}
-              src="/image/logo_only.png"
-              alt="logo image"
-            />
+          <div>
             <Link
               href="/"
-              className="mr-4 cursor-pointer py-1.5 lg:ml-2 font-semibold"
+              className="mr-4 cursor-pointer py-1.5 lg:ml-2 font-semibold flex flex-row items-center"
             >
-              InfinityGear
+              <Image
+                width={50}
+                height={50}
+                src="/image/logo_only.png"
+                alt="logo image"
+              />
+              <div>InfinityGear</div>
             </Link>
           </div>
 
