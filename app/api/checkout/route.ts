@@ -54,6 +54,14 @@ export const POST = async (req: Request) => {
       };
     });
 
+    const customer = await stripe.customers.create({
+      metadata: {
+        userId: session.user.id,
+        cartId: cartId,
+        type: "checkout",
+      },
+    });
+
     // generate payment link and send to frontend app
     const params: Stripe.Checkout.SessionCreateParams = {
       mode: "payment",
@@ -62,6 +70,7 @@ export const POST = async (req: Request) => {
       success_url: process.env.PAYMENT_SUCCESS_URL!,
       cancel_url: process.env.PAYMENT_CANCEL_URL!,
       shipping_address_collection: { allowed_countries: ["VN", "US"] },
+      customer: customer.id,
     };
 
     const checkoutSession = await stripe.checkout.sessions.create(params);
