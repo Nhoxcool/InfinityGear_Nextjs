@@ -148,11 +148,12 @@ export interface UserProfileToUpdate {
   id: string;
 }
 
-interface CartProduct {
+export interface CartProduct {
   id: string;
   thumbnail: string;
   title: string;
   price: number;
+  brand: string;
   totalPrice: number;
   qty: number;
 }
@@ -168,6 +169,7 @@ export interface StripeCustomer {
   metadata: {
     userId: string;
     cartId: string;
-    type: "checkout";
+    type: "checkout" | "instant-checkout";
+    product: string;
   };
 }
