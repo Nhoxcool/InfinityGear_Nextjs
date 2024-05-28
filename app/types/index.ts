@@ -163,3 +163,11 @@ export interface CartItems {
   totalQty: number;
   totalPrice: number;
 }
+
+export interface StripeCustomer {
+  metadata: {
+    userId: string;
+    cartId: string;
+    type: "checkout";
+  };
+}
