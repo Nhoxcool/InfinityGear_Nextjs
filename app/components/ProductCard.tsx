@@ -38,6 +38,22 @@ export default function ProductCard({ product }: Props) {
   const router = useRouter();
   const [isPending, startTransition] = useTransition();
 
+  const handleCheckout = async () => {
+    const res = await fetch("/api/checkout/instant", {
+      method: "POST",
+      body: JSON.stringify({ productId: product.id }),
+    });
+
+    const { error, url } = await res.json();
+
+    if (!res.ok) {
+      toast.error(error);
+    } else {
+      // open the checkout url
+      window.location.href = url;
+    }
+  };
+
   const addToCart = async () => {
     if (!loggedIn) return router.push("/auth/signin");
 
@@ -109,8 +125,12 @@ export default function ProductCard({ product }: Props) {
           Add to Cart
         </Button>
         <Button
+          disabled={isPending}
           ripple={false}
           fullWidth={true}
+          onClick={() => {
+            startTransition(async () => await handleCheckout());
+          }}
           className="bg-blue-400 text-white shadow-none hover:shadow-none hover:scale-105 focus:shadow-none focus:scale-105 active:scale-100"
         >
           Buy Now
