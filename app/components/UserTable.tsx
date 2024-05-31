@@ -9,7 +9,7 @@ import {
 } from "@material-tailwind/react";
 import truncate from "truncate";
 import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { useState, useTransition } from "react";
 import { toast } from "react-toastify";
 import { updateRole } from "../(admin)/users/action";
 import SearchForm from "./SearchForm";
@@ -32,13 +32,12 @@ interface Props {
 
 export default function UserTable(props: Props) {
   const router = useRouter();
+  const [isPending, startTransition] = useTransition();
   const [selectedRole, setSelectedRole] = useState<string>("all");
   const [selectedRoles, setSelectedRoles] = useState<{
     [userId: string]: string;
   }>({});
-  const [isSelectedUserId, SetIsSelectedUserId] = useState<String>();
-  const [isUpdating, setisUpdating] = useState<boolean>(false);
-  let TABLE_HEAD = ["Email", "Name", "Role", "DELETE", "UPDATE"];
+  let TABLE_HEAD = ["Email", "Name", "Role", "DELETE"];
   const {
     users: users = [],
     currentPageNo,
@@ -55,21 +54,14 @@ export default function UserTable(props: Props) {
     setSelectedRole(role);
   };
 
-  const handleRoleChange = (
+  const handleRoleChange = async (
     userId: string,
     event: React.ChangeEvent<HTMLSelectElement>
   ) => {
     const { value } = event.target;
-    SetIsSelectedUserId(userId);
-    setSelectedRoles({
-      ...selectedRoles,
-      [userId]: value,
-    });
-    if (selectedRoles[userId] !== value) {
-      setisUpdating(true);
-    } else {
-      setisUpdating(false);
-    }
+    await updateRole(userId, value);
+    toast.success("Update role successfully!");
+    router.refresh();
   };
 
   const handleOnPrevPress = () => {
@@ -82,15 +74,6 @@ export default function UserTable(props: Props) {
     router.push(`/brandes?page=${nextPage}`);
   };
 
-  const handleRoleUpdate = async (userId: string) => {
-    const newRole = selectedRoles[userId] as string;
-
-    await updateRole(userId, newRole);
-
-    setisUpdating(!isUpdating);
-    toast.success("Update role successfully!");
-    router.refresh();
-  };
   return (
     <div className="py-5">
       <div className="mb-4 flex flex-col justify-between gap-8 md:flex-row md:items-center">
@@ -185,7 +168,10 @@ export default function UserTable(props: Props) {
                     <div className="w-max">
                       <select
                         value={selectedRoles[id] || role}
-                        onChange={(e) => handleRoleChange(id, e)}
+                        disabled={isPending}
+                        onChange={(e) => {
+                          startTransition(async () => handleRoleChange(id, e));
+                        }}
                         className="rounded-lg px-3 py-2 border border-gray-300 bg-white shadow-sm focus:outline-none focus:border-blue-400 focus:ring focus:ring-blue-400 focus:ring-opacity-50"
                       >
                         <option value="admin">Admin</option>
@@ -197,18 +183,6 @@ export default function UserTable(props: Props) {
                   <td className={classes}>
                     <DeleteUserModal userId={id} />
                   </td>
-
-                  {selectedRoles[id] !== role && isSelectedUserId === id ? (
-                    <td className="p-4">
-                      <Button
-                        disabled={!isUpdating}
-                        onClick={() => handleRoleUpdate(id)}
-                        color="blue"
-                      >
-                        {isUpdating ? "Update" : "Updating...."}{" "}
-                      </Button>
-                    </td>
-                  ) : null}
                 </tr>
               );
             })}

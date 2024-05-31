@@ -2,8 +2,10 @@
 
 import { Avatar, Option, Select } from "@material-tailwind/react";
 import Image from "next/image";
-import React from "react";
+import React, { useTransition } from "react";
 import { formatPrice } from "../utils/helper";
+import { toast } from "react-toastify";
+import { useRouter } from "next/navigation";
 
 type product = {
   id: string;
@@ -76,6 +78,8 @@ const formatAddress = ({
 };
 
 export default function OrderCard({ order, disableUpdate = true }: Props) {
+  const [isPending, startTransition] = useTransition();
+  const router = useRouter();
   return (
     <div className="space-y-4 rounded border-blue-gray-800 border border-dashed p-2">
       <div className="flex justify-between">
@@ -107,10 +111,21 @@ export default function OrderCard({ order, disableUpdate = true }: Props) {
         </div>
         <div>
           <Select
-            disabled={disableUpdate}
+            disabled={disableUpdate || isPending}
             value={order.deliveryStatus}
             className="uppercase"
             label="Delivery Status"
+            onChange={(deliveryStatus) => {
+              startTransition(async () => {
+                await fetch("/api/order/update-status", {
+                  method: "POST",
+                  body: JSON.stringify({ orderId: order.id, deliveryStatus }),
+                });
+
+                toast.success("Order status update successfully!");
+                router.refresh();
+              });
+            }}
           >
             {ORDER_STATUS.map((op) => (
               <Option value={op} className="uppercase" key={op}>
