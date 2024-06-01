@@ -173,3 +173,9 @@ export interface StripeCustomer {
     product: string;
   };
 }
+
+export interface ReviewRequeetBody {
+  productId: string;
+  comment?: string;
+  rating: number;
+}

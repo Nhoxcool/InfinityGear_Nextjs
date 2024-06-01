@@ -38,12 +38,15 @@ export default function OrderListPublic({ orders }: { orders: Orders[] }) {
             {order.products.map((p) => {
               return (
                 <div key={p.id} className="flex space-x-2">
-                  <Image
-                    src={p.thumbnail}
-                    width={50}
-                    height={50}
-                    alt={p.title}
-                  />
+                  <div>
+                    <Image
+                      src={p.thumbnail}
+                      width={80}
+                      height={80}
+                      objectFit="contain"
+                      alt={p.title}
+                    />
+                  </div>
                   <div>
                     <p>{p.title}</p>
                     <div className="flex space-x-2 text-sm">

@@ -2,6 +2,7 @@ import ProductView from "@/app/components/ProductView";
 import startDb from "@/app/lib/db";
 import ProductModel from "@/app/models/ProductModel";
 import { isValidObjectId } from "mongoose";
+import Link from "next/link";
 import { redirect } from "next/navigation";
 import React from "react";
 
@@ -53,6 +54,12 @@ export default async function Product({ params }: Props) {
         brand={productInfo.brand}
         category={productInfo.category}
       />
+      <div className="py-4">
+        <div className="flex justify-between items-center">
+          <h1 className="text-2xl font-semibold mb-2">Reviews</h1>
+          <Link href={`/add-review/${productInfo.id}`}>Add Review</Link>
+        </div>
+      </div>
     </div>
   );
 }
