@@ -5,7 +5,7 @@ interface ReviewDocument extends Document {
   product: ObjectId;
   rating: number;
   comment?: string;
-  createAt: Date;
+  createdAt: Date;
 }
 
 const reviewSchema = new Schema<ReviewDocument>(
