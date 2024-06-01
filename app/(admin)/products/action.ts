@@ -3,6 +3,7 @@
 import startDb from "@/app/lib/db";
 import BrandModel, { NewBrand } from "@/app/models/BrandeModel";
 import ProductModel, { NewProduct } from "@/app/models/ProductModel";
+import ReviewModel from "@/app/models/reviewModel";
 import {
   BrandResponse,
   BrandToUpdate,
@@ -123,6 +124,7 @@ export const deleteProduct = async (id: string) => {
     }
 
     await ProductModel.findByIdAndDelete(id);
+    await ReviewModel.deleteMany({ product: id });
   } catch (error) {
     console.log("Error while deleting product, ", (error as any).message);
     throw error;

@@ -6,6 +6,7 @@ import Link from "next/link";
 import FeaturedProductsSlider from "../components/FeaturedProductsSlider";
 import FeaturedProductModel from "../models/featuredProduct";
 import HorizontalMenu from "../components/HorizontalMenu";
+import { rating } from "@material-tailwind/react";
 
 export interface LatestProduct {
   id: string;
@@ -36,6 +37,7 @@ const fetchLatestProducts = async () => {
       thumbnail: product.thumbnail.url,
       price: product.price,
       sale: product.sale,
+      rating: product.rating,
     };
   });
 
@@ -76,7 +78,9 @@ export default async function Home() {
             Find More
           </Link>
         </div>
-        <ProductSlider products={parsedProducts} />
+        <div className=" custom-slider min-h-[300px]">
+          <ProductSlider products={parsedProducts} />
+        </div>
       </div>
     </div>
   );

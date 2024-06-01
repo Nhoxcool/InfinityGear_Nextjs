@@ -10,3 +10,19 @@
 .slick-dots {
   bottom: 6px !important;
 }
+
+.custom-slider .slick-dots {
+  bottom: -20px; /* Adjust this value to move the dots lower */
+}
+
+.custom-slider .slick-slider {
+  height: 100%;
+}
+
+.custom-slider .slick-slide {
+  height: 100%;
+}
+
+.custom-slider .slick-list {
+  height: 100%;
+}

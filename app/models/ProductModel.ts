@@ -14,6 +14,7 @@ export interface NewProduct {
   brand: string;
   category: string;
   quantity: number;
+  rating?: number;
 }
 
 export interface ProductDocument extends NewProduct {
@@ -45,6 +46,7 @@ const productSchema = new Schema<ProductDocument>(
     brand: { type: String, required: true },
     category: { type: String, enum: [...categories], required: true },
     quantity: { type: Number, required: true },
+    rating: Number,
   },
   { timestamps: true }
 );

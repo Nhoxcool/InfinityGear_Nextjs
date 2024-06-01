@@ -40,6 +40,8 @@ const fetchReview = async (productId: string) => {
   }
 };
 
+
+
 export default async function Review({ params }: Props) {
   const productId = params.id;
   const review = await fetchReview(productId);

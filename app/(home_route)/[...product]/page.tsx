@@ -1,8 +1,10 @@
 import ProductView from "@/app/components/ProductView";
+import Rating from "@/app/components/Rating";
 import ReviewsList from "@/app/components/ReviewsList";
 import startDb from "@/app/lib/db";
 import ProductModel from "@/app/models/ProductModel";
 import ReviewModel from "@/app/models/reviewModel";
+import { rating } from "@material-tailwind/react";
 import { ObjectId, isValidObjectId } from "mongoose";
 import Link from "next/link";
 import { redirect } from "next/navigation";
@@ -32,6 +34,7 @@ const fetchProduct = async (productId: string) => {
     category: product.category,
     brand: product.brand,
     sale: product.sale,
+    rating: product.rating,
   });
 };
 
@@ -81,6 +84,7 @@ export default async function Product({ params }: Props) {
         images={productImages}
         brand={productInfo.brand}
         category={productInfo.category}
+        rating={productInfo.rating}
       />
       <div className="py-4 space-y-4">
         <div className="flex justify-between items-center">
