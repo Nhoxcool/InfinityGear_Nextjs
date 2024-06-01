@@ -1,6 +1,8 @@
 import EmailVerificationBanner from "@/app/components/EmailVerficationBanner";
+import OrderListPublic, { Orders } from "@/app/components/OrderListPublic";
 import ProfileForm from "@/app/components/ProfileForm";
 import startDb from "@/app/lib/db";
+import OrderModel from "@/app/models/orderModel";
 import UserModel from "@/app/models/userModel";
 import { auth } from "@/auth";
 import Link from "next/link";
@@ -24,9 +26,34 @@ const fetchUserProfile = async () => {
   };
 };
 
+const fetchOrders = async () => {
+  const session = await auth();
+
+  if (!session?.user) {
+    return null;
+  }
+
+  await startDb();
+  const order = await OrderModel.find({ userId: session.user.id })
+    .sort("-createdAt")
+    .limit(2);
+  const result: Orders[] = order.map((order) => {
+    return {
+      id: order._id.toString(),
+      paymentStatus: order.paymentStatus,
+      date: order.createdAt.toString(),
+      total: order.totalAmount,
+      deliveryStatus: order.deliveryStatus,
+      products: order.orderItems,
+    };
+  });
+
+  return JSON.stringify(result);
+};
+
 export default async function Profile() {
   const profile = await fetchUserProfile();
-
+  const result = (await fetchOrders()) as string;
   return (
     <div>
       <EmailVerificationBanner verified={profile.verified} id={profile.id} />
@@ -50,6 +77,7 @@ export default async function Profile() {
               See all orders
             </Link>
           </div>
+          <OrderListPublic orders={JSON.parse(result)} />
         </div>
       </div>
     </div>
