@@ -4,6 +4,7 @@ import dateFormat from "dateformat";
 import SalesChart from "@/app/components/SalesChart";
 import { formatPrice } from "@/app/utils/helper";
 import GridView from "@/app/components/GridView";
+import startDb from "@/app/lib/db";
 
 const sevenDaysSalesHistory = async () => {
   // Calculate the date: 7 days ago
@@ -19,6 +20,7 @@ const sevenDaysSalesHistory = async () => {
   }
 
   // Fetch data from within those 7 days
+  await startDb();
   const last7DaysSales: { _id: string; totalAmount: number }[] =
     await OrderModel.aggregate([
       {
@@ -54,7 +56,6 @@ const sevenDaysSalesHistory = async () => {
 
 export default async function Sales() {
   const saleData = await sevenDaysSalesHistory();
-  console.log(saleData);
   return (
     <div className="flex flex-row space-y-4">
       <div className="flex flex-col space-y-4">

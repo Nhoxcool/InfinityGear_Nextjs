@@ -14,6 +14,7 @@ interface Props {
   brand: string;
   category: string;
   rating: number;
+  outOfstock: boolean;
 }
 
 export default function ProductView({
@@ -26,6 +27,7 @@ export default function ProductView({
   brand,
   category,
   rating,
+  outOfstock,
 }: Props) {
   return (
     <div className="flex lg:flex-row flex-col md:gap-4 gap-2">
@@ -71,7 +73,11 @@ export default function ProductView({
           )}
         </div>
         <div className="flex py-4">
-          <BuyingOptions />
+          {outOfstock ? (
+            <div className="uppercase text-gray-700">Out of stock </div>
+          ) : (
+            <BuyingOptions />
+          )}
         </div>
       </div>
     </div>
