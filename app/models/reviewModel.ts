@@ -14,7 +14,6 @@ const reviewSchema = new Schema<ReviewDocument>(
       type: Schema.Types.ObjectId,
       ref: "User",
       required: true,
-      unique: true,
     },
     product: {
       type: Schema.Types.ObjectId,
