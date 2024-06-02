@@ -1,5 +1,6 @@
 import ReviewForm from "@/app/components/ReviewForm";
 import startDb from "@/app/lib/db";
+import ProductModel from "@/app/models/ProductModel";
 import ReviewModel from "@/app/models/reviewModel";
 import { auth } from "@/auth";
 import Image from "next/image";
@@ -40,11 +41,22 @@ const fetchReview = async (productId: string) => {
   }
 };
 
-
+const fetchProductInfo = async (productId: string) => {
+  await startDb();
+  const product = await ProductModel.findById(productId);
+  if (!product) return null;
+  return {
+    title: product.title,
+    thumbnail: product.thumbnail.url,
+  };
+};
 
 export default async function Review({ params }: Props) {
   const productId = params.id;
   const review = await fetchReview(productId);
+  const product = await fetchProductInfo(productId);
+
+  if (!product) return redirect("/404");
 
   const initialValue = review
     ? { comment: review.comment || "", rating: review.rating }
@@ -54,8 +66,8 @@ export default async function Review({ params }: Props) {
     <div className="p-4 space-y-4">
       <div className="flex item-center space-x-4">
         <Image
-          src={review?.product.thumbnail || ""}
-          alt={review?.product.title || "thumbnail"}
+          src={product.thumbnail}
+          alt={product.title}
           width={50}
           height={50}
           objectFit="contain"
