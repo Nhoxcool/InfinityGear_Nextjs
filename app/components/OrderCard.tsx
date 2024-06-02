@@ -155,13 +155,15 @@ export default function OrderCard({ order, disableUpdate = true }: Props) {
             >
               <td className="py-2 px-4">
                 <div className="flex space-x-2">
-                  <Image
-                    src={product.thumbnail}
-                    width={80}
-                    height={50}
-                    objectFit="cover"
-                    alt={product.title}
-                  />
+                  <div>
+                    <Image
+                      src={product.thumbnail}
+                      width={80}
+                      height={80}
+                      objectFit="contain"
+                      alt={product.title}
+                    />
+                  </div>
                   <div>
                     <p className="font-semibold">{product.title}</p>
                     <p className="text-sm">

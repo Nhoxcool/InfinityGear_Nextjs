@@ -35,6 +35,7 @@ const fetchProduct = async (productId: string) => {
     brand: product.brand,
     sale: product.sale,
     rating: product.rating,
+    outOfstock: product.quantity <= 0,
   });
 };
 
@@ -85,6 +86,7 @@ export default async function Product({ params }: Props) {
         brand={productInfo.brand}
         category={productInfo.category}
         rating={productInfo.rating}
+        outOfstock={productInfo.outOfstock}
       />
       <div className="py-4 space-y-4">
         <div className="flex justify-between items-center">
