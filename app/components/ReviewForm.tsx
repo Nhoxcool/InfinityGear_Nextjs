@@ -41,6 +41,7 @@ export default function ReviewForm({ productId, initialValue }: Props) {
     }
 
     toast.success("Review product successfully!");
+    router.back();
     router.refresh();
   };
 
