@@ -12,8 +12,8 @@ import {
 import truncate from "truncate";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
-import SearchForm from "@components/SearchForm";
 import DeleteBrandModal from "./DeleteBrandModal";
+import SearchBrandsForm from "./SearchBrandsForm";
 
 export interface Brand {
   id: string;
@@ -59,7 +59,7 @@ export default function BrandTable(props: Props) {
           </Typography>
         </div>
         <div className="flex w-full shrink-0 gap-2 md:w-max">
-          <SearchForm />
+          <SearchBrandsForm />
           <Link
             href="/brandes/create"
             className="select-none font-bold text-center uppercase transition-all text-xs py-2 px-4 rounded-lg bg-blue-500 text-white shadow-md shadow-blue-500/20 hover:shadow-lg hover:shadow-blue-500/40 focus:opacity-[0.85] focus:shadow-none active:opacity-[0.85] active:shadow-none flex items-center gap-3"

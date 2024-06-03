@@ -3,15 +3,16 @@ import React, { useState } from "react";
 import { MagnifyingGlassIcon } from "@heroicons/react/24/outline";
 import { useRouter, useSearchParams } from "next/navigation";
 
-export default function SearchForm() {
+export default function SearchUserForm() {
   const [query, setQuery] = useState("");
   const router = useRouter();
+
   return (
     <form
       onSubmit={(e) => {
         e.preventDefault();
         if (!query) return;
-        router.push(`/products/search?query=${query}`);
+        router.push(`/users/search?query=${query}`);
       }}
       className="w-full md:w-72"
     >
