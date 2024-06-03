@@ -30,7 +30,7 @@ const fetchOrders = async () => {
   const session = await auth();
 
   if (!session?.user) {
-    return null;
+    return redirect("/auth/signin");
   }
 
   await startDb();
