@@ -14,6 +14,7 @@ import { toast } from "react-toastify";
 import { updateRole } from "../(admin)/users/action";
 import SearchForm from "./SearchForm";
 import DeleteUserModal from "./DeleteUserModel";
+import SearchUserForm from "./SearchUserForm";
 
 export interface User {
   id: string;
@@ -83,7 +84,7 @@ export default function UserTable(props: Props) {
           </Typography>
         </div>
         <div className="flex w-full shrink-0 gap-2 md:w-max">
-          <SearchForm />
+          <SearchUserForm />
           <Button
             onClick={() => handleRoleSort("all")}
             color={selectedRole === "all" ? "blue" : "gray"}
