@@ -6,24 +6,26 @@ import Link from "next/link";
 import { formatPrice } from "../utils/helper";
 import { CardHeader, Chip } from "@material-tailwind/react";
 
-interface Props {
-  products: {
-    id: string;
-    title: string;
-    thumbnail: string;
-    price: {
-      base: number;
-      discounted: number;
-    };
-    sale: number;
-  }[];
+interface Product {
+  id: string;
+  title: string;
+  thumbnail: string;
+  price: {
+    base: number;
+    discounted: number;
+  };
+  sale: number;
 }
 
-export default function SimilarProductsList({ products }: Props) {
+interface Props {
+  products: Product[];
+}
+
+export default function RecentProductLists({ products }: Props) {
   return (
     <div className="py-6 w-full mt-6">
       <h1 className="font-semibold text-lg mb-4 text-blue-gray-600">
-        You Also May Like
+        Recent Products
       </h1>
       <HorizontalMenu>
         {products.map((product) => {

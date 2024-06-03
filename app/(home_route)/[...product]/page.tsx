@@ -1,11 +1,14 @@
 import ProductView from "@/app/components/ProductView";
 import Rating from "@/app/components/Rating";
+import RecentProductLists from "@/app/components/RecentProductLists";
 import ReviewsList from "@/app/components/ReviewsList";
 import SimilarProductsList from "@/app/components/SimilarProductsList";
 import startDb from "@/app/lib/db";
 import ProductModel from "@/app/models/ProductModel";
+import HistoryModel, { updateOrCreateHistory } from "@/app/models/historyModel";
 import ReviewModel from "@/app/models/reviewModel";
 import categories from "@/app/utils/categories";
+import { auth } from "@/auth";
 import { rating } from "@material-tailwind/react";
 import { ObjectId, isValidObjectId } from "mongoose";
 import Link from "next/link";
@@ -24,6 +27,10 @@ const fetchProduct = async (productId: string) => {
   await startDb();
   const product = await ProductModel.findById(productId);
   if (!product) return redirect("/404");
+
+  const session = await auth();
+  if (session?.user)
+    await updateOrCreateHistory(session.user.id, product._id.toString());
 
   return JSON.stringify({
     id: product._id.toString(),
@@ -96,6 +103,62 @@ const fetchSimilarProducts = async (productId: string) => {
   });
 };
 
+const fetchRecentProduct = async (
+  userId: string,
+  currentProductId: string
+): Promise<
+  {
+    id: string;
+    title: string;
+    thumbnail: string;
+    price: {
+      base: number;
+      discounted: number;
+    };
+    sale: number;
+  }[]
+> => {
+  await startDb();
+
+  const histories = await HistoryModel.find({
+    owner: userId,
+  }).populate("items.product");
+
+  if (!histories || histories.length === 0) {
+    throw new Error("History not found");
+  }
+
+  const allItems = histories.flatMap((history) => history.items);
+  allItems.sort((a, b) => b.date.getTime() - a.date.getTime());
+
+  if (allItems.length === 0) {
+    throw new Error("No history items found");
+  }
+
+  const filteredItems = allItems.slice(1, 11);
+
+  const recentProducts = await Promise.all(
+    filteredItems.map(async (a) => {
+      const recentProduct = await ProductModel.findById(a.product);
+      if (!recentProduct) {
+        throw new Error("Recent product not found");
+      }
+      return {
+        id: recentProduct._id.toString(),
+        title: recentProduct.title || "",
+        thumbnail: recentProduct.thumbnail?.url || "",
+        price: {
+          base: recentProduct.price.base || 0,
+          discounted: recentProduct.price.discounted || 0,
+        },
+        sale: recentProduct.sale || 0,
+      };
+    })
+  );
+
+  return recentProducts;
+};
+
 export default async function Product({ params }: Props) {
   const { product } = params;
   const productId = product[1];
@@ -107,6 +170,9 @@ export default async function Product({ params }: Props) {
 
   const reviews = await fetchProductReviews(productId);
   const similarProducts = await fetchSimilarProducts(productId);
+
+  const session = await auth();
+  const recentProducts = await fetchRecentProduct(session.user.id, productId);
 
   return (
     <div className="p-4">
@@ -125,6 +191,12 @@ export default async function Product({ params }: Props) {
 
       {(similarProducts ?? []).length > 0 ? (
         <SimilarProductsList products={similarProducts} />
+      ) : (
+        ""
+      )}
+
+      {(recentProducts ?? []).length > 0 ? (
+        <RecentProductLists products={recentProducts} />
       ) : (
         ""
       )}
