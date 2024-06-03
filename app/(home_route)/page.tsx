@@ -5,8 +5,7 @@ import ProductSlider from "../components/ProductSlider";
 import Link from "next/link";
 import FeaturedProductsSlider from "../components/FeaturedProductsSlider";
 import FeaturedProductModel from "../models/featuredProduct";
-import HorizontalMenu from "../components/HorizontalMenu";
-import { rating } from "@material-tailwind/react";
+import CategoryMenu from "../components/CategoryMenu";
 
 export interface LatestProduct {
   id: string;
@@ -67,13 +66,13 @@ export default async function Home() {
   return (
     <div className="py-4 space-y-4">
       <FeaturedProductsSlider products={featuredProduct} />
-      <HorizontalMenu />
+      <CategoryMenu />
       <div className="relative mt-5">
         <div className="flex justify-between">
           <h2 className="text-2xl font-bold mb-4">NewProduct</h2>
           <Link
             className="text-black underline hover:text-blue-800 text-lg"
-            href="/"
+            href="/all-products"
           >
             Find More
           </Link>

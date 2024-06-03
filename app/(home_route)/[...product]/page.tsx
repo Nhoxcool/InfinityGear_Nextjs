@@ -1,9 +1,11 @@
 import ProductView from "@/app/components/ProductView";
 import Rating from "@/app/components/Rating";
 import ReviewsList from "@/app/components/ReviewsList";
+import SimilarProductsList from "@/app/components/SimilarProductsList";
 import startDb from "@/app/lib/db";
 import ProductModel from "@/app/models/ProductModel";
 import ReviewModel from "@/app/models/reviewModel";
+import categories from "@/app/utils/categories";
 import { rating } from "@material-tailwind/react";
 import { ObjectId, isValidObjectId } from "mongoose";
 import Link from "next/link";
@@ -63,6 +65,37 @@ const fetchProductReviews = async (productId: string) => {
   return JSON.stringify(result);
 };
 
+const fetchSimilarProducts = async (productId: string) => {
+  await startDb();
+
+  const currentProduct = await ProductModel.findById(productId);
+  if (!currentProduct) {
+    throw new Error("Product not found");
+  }
+
+  const currentCategories = currentProduct.category as string;
+
+  const similarProducts = await ProductModel.find({
+    _id: { $ne: productId },
+    category: { $in: currentCategories },
+  })
+    .sort({ rating: -1 })
+    .limit(10);
+
+  return similarProducts.map(({ _id, thumbnail, title, price, sale }) => {
+    return {
+      id: _id.toString(),
+      title,
+      thumbnail: thumbnail.url,
+      price: {
+        base: price.base,
+        discounted: price.discounted,
+      },
+      sale,
+    };
+  });
+};
+
 export default async function Product({ params }: Props) {
   const { product } = params;
   const productId = product[1];
@@ -73,6 +106,7 @@ export default async function Product({ params }: Props) {
   }
 
   const reviews = await fetchProductReviews(productId);
+  const similarProducts = await fetchSimilarProducts(productId);
 
   return (
     <div className="p-4">
@@ -88,6 +122,13 @@ export default async function Product({ params }: Props) {
         rating={productInfo.rating}
         outOfstock={productInfo.outOfstock}
       />
+
+      {(similarProducts ?? []).length > 0 ? (
+        <SimilarProductsList products={similarProducts} />
+      ) : (
+        ""
+      )}
+
       <div className="py-4 space-y-4">
         <div className="flex justify-between items-center">
           <h1 className="text-2xl font-semibold mb-2">Reviews</h1>

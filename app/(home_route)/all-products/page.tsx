@@ -20,11 +20,9 @@ interface LatestProduct {
   sale: number;
 }
 
-const fetchProductsByCategory = async (category: string) => {
+const fetchProductsByCategory = async () => {
   await startDb();
-  const products = await ProductModel.find({ category })
-    .sort("-createdAt")
-    .limit(20);
+  const products = await ProductModel.find().sort("-createdAt").limit(20);
 
   const productList = products.map((product) => {
     return {
@@ -45,10 +43,8 @@ interface Props {
   params: { category: string };
 }
 
-export default async function ProductByCategory({ params }: Props) {
-  const products = await fetchProductsByCategory(
-    decodeURIComponent(params.category)
-  );
+export default async function ProductByCategory() {
+  const products = await fetchProductsByCategory();
   const parsedProducts = JSON.parse(products) as LatestProduct[];
 
   return (
