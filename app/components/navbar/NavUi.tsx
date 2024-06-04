@@ -1,19 +1,20 @@
-'use client';
-import Link from 'next/link';
-import React from 'react';
+"use client";
+import Link from "next/link";
+import React from "react";
 import {
   Navbar as MaterialNav,
   IconButton,
   Spinner,
   Typography,
-} from '@material-tailwind/react';
-import { Bars3Icon, XMarkIcon } from '@heroicons/react/24/outline';
-import ProfileMenu from '../ProfileMenu';
-import { MobileNav } from '../MobileNav';
-import CartIcon from '../CartIcon';
-import { UserCircleIcon, ShoppingBagIcon } from '@heroicons/react/24/outline';
-import useAuth from '@hooks/useAuth';
-import Image from 'next/image';
+} from "@material-tailwind/react";
+import { Bars3Icon, XMarkIcon } from "@heroicons/react/24/outline";
+import ProfileMenu from "../ProfileMenu";
+import { MobileNav } from "../MobileNav";
+import CartIcon from "../CartIcon";
+import { UserCircleIcon, ShoppingBagIcon } from "@heroicons/react/24/outline";
+import useAuth from "@hooks/useAuth";
+import Image from "next/image";
+import SearchForm from "../SearchForm";
 
 interface Props {
   cartItemsCount: number;
@@ -22,14 +23,14 @@ interface Props {
 
 export const menuItems = [
   {
-    href: '/profile',
+    href: "/profile",
     icon: <UserCircleIcon className="h-4 w-4" />,
-    label: 'My Profile',
+    label: "My Profile",
   },
   {
-    href: '/profile/orders',
+    href: "/profile/orders",
     icon: <ShoppingBagIcon className="h-4 w-4" />,
-    label: 'Orders',
+    label: "Orders",
   },
 ];
 
@@ -39,8 +40,8 @@ export default function NavUI({ cartItemsCount, avatar }: Props) {
 
   React.useEffect(() => {
     const onResize = () => window.innerWidth >= 960 && setOpen(false);
-    window.addEventListener('resize', onResize);
-    return () => window.removeEventListener('resize', onResize);
+    window.addEventListener("resize", onResize);
+    return () => window.removeEventListener("resize", onResize);
   }, []);
 
   return (
@@ -60,6 +61,13 @@ export default function NavUI({ cartItemsCount, avatar }: Props) {
               />
               <div>InfinityGear</div>
             </Link>
+          </div>
+          <div className="flex justify-center">
+            <div className="md:w-96 w-full md:mx-0 mx-4">
+              <div className="hidden md:block">
+                <SearchForm submitTo="/search?query=" />
+              </div>
+            </div>
           </div>
 
           <div className="hidden lg:flex gap-2 items-center">

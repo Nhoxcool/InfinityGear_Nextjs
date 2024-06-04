@@ -25,6 +25,7 @@ import { MenuItems } from "@app/types";
 import Image from "next/image";
 import SignOutButton from "./SignOutButton";
 import { CategoryItems } from "../utils/categoriesItems";
+import SearchForm from "./SearchForm";
 
 interface Props {
   open: boolean;
@@ -60,6 +61,13 @@ export function MobileNav({ open, onClose, menuItems }: Props) {
             <XMarkIcon strokeWidth={2} className="h-5 w-5" />
           </IconButton>
         </div>
+
+        <div className="flex justify-center">
+          <div className="md:w-96 w-full md:mx-0 mx-4">
+            <SearchForm submitTo="/search?query=" onClose={onClose} />
+          </div>
+        </div>
+
         <List>
           {menuItems.map(({ href, icon, label }) => {
             return (
