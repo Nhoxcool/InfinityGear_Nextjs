@@ -3,8 +3,11 @@ import startDb from "@lib/db";
 
 import GridView from "@components/GridView";
 import ProductCard from "@components/ProductCard";
-import ProductModel from "@/app/models/ProductModel";
+import ProductModel, { ProductDocument } from "@/app/models/ProductModel";
 import CategoryMenu from "@/app/components/CategoryMenu";
+import SearchFilter from "@/app/components/SearchFilter";
+import SearchFilterCatogriesPage from "@/app/components/SearchFilterCatogriesPage";
+import { FilterQuery } from "mongoose";
 
 interface LatestProduct {
   id: string;
@@ -20,11 +23,36 @@ interface LatestProduct {
   sale: number;
 }
 
-const fetchProductsByCategory = async (category: string) => {
+type Options = {
+  priceSort?: "asc" | "desc";
+  maxRating?: number;
+  minRating?: number;
+};
+
+const fetchProductsByCategory = async (
+  category: string,
+  options: Options
+): Promise<string> => {
+  const { maxRating, minRating, priceSort } = options;
   await startDb();
-  const products = await ProductModel.find({ category })
-    .sort("-createdAt")
-    .limit(20);
+
+  console.log(category), console.log(options);
+
+  const filter: FilterQuery<ProductDocument> = {
+    category: { $regex: category, $options: "i" },
+  };
+
+  if (typeof minRating === "number" && typeof maxRating === "number") {
+    const mindCondition = minRating >= 0;
+    const maxCondition = maxRating <= 5;
+    if (mindCondition && maxCondition) {
+      filter.rating = { $gte: minRating, $lte: maxRating };
+    }
+  }
+
+  const products = await ProductModel.find({
+    ...filter,
+  }).sort({ "price.discounted": priceSort === "asc" ? 1 : -1 });
 
   const productList = products.map((product) => {
     return {
@@ -35,6 +63,7 @@ const fetchProductsByCategory = async (category: string) => {
       thumbnail: product.thumbnail.url,
       price: product.price,
       sale: product.sale,
+      rating: product.rating,
     };
   });
 
@@ -43,28 +72,41 @@ const fetchProductsByCategory = async (category: string) => {
 
 interface Props {
   params: { category: string };
+  searchParams: Options;
 }
 
-export default async function ProductByCategory({ params }: Props) {
+export default async function ProductByCategory({
+  params,
+  searchParams,
+}: Props) {
+  const { maxRating, minRating } = searchParams;
+
   const products = await fetchProductsByCategory(
-    decodeURIComponent(params.category)
+    decodeURIComponent(params.category),
+    {
+      ...searchParams,
+      maxRating: maxRating ? +maxRating : undefined,
+      minRating: minRating ? +minRating : undefined,
+    }
   );
   const parsedProducts = JSON.parse(products) as LatestProduct[];
 
   return (
     <div className="py-4 space-y-4">
       <CategoryMenu />
-      {parsedProducts.length ? (
-        <GridView>
-          {parsedProducts.map((product) => {
-            return <ProductCard key={product.id} product={product} />;
-          })}
-        </GridView>
-      ) : (
-        <h1 className="text-center pt-10 font-semibold text-2xl opacity-40">
-          Sorry there are no products in this category!
-        </h1>
-      )}
+      <SearchFilterCatogriesPage>
+        {parsedProducts.length ? (
+          <GridView>
+            {parsedProducts.map((product) => {
+              return <ProductCard key={product.id} product={product} />;
+            })}
+          </GridView>
+        ) : (
+          <h1 className="text-center pt-10 font-semibold text-2xl opacity-40">
+            Sorry there are no products in this category!
+          </h1>
+        )}
+      </SearchFilterCatogriesPage>
     </div>
   );
 }

@@ -4,7 +4,9 @@ import HorizontalMenu from "./HorizontalMenu";
 import Image from "next/image";
 import Link from "next/link";
 import { formatPrice } from "../utils/helper";
-import { CardHeader, Chip } from "@material-tailwind/react";
+import { CardHeader, Chip, Typography } from "@material-tailwind/react";
+import truncate from "truncate";
+import Rating from "./Rating";
 
 interface Props {
   products: {
@@ -16,6 +18,7 @@ interface Props {
       discounted: number;
     };
     sale: number;
+    rating?: number;
   }[];
 }
 
@@ -23,13 +26,13 @@ export default function SimilarProductsList({ products }: Props) {
   return (
     <div className="py-6 w-full mt-6">
       <h1 className="font-semibold text-lg mb-4 text-blue-gray-600">
-        You Also May Like
+        You also may like
       </h1>
       <HorizontalMenu>
         {products.map((product) => {
           return (
             <Link href={`/${product.title}/${product.id}`} key={product.id}>
-              <div className="w-[200px] space-y-2 mr-4">
+              <div className="w-[200px] space-y-2 mr-11">
                 <CardHeader
                   shadow={false}
                   floated={false}
@@ -48,8 +51,31 @@ export default function SimilarProductsList({ products }: Props) {
                   ) : null}
                 </CardHeader>
                 <div>
-                  <h2 className="text-sm line-clamp-3">{product.title}</h2>
-                  <h2>{formatPrice(product.price.discounted)}</h2>
+                  <div className="mb-2">
+                    <h3 className="line-clamp-1 font-medium text-blue-gray-800">
+                      {truncate(product.title, 50)}
+                    </h3>
+                    <div className="flex justify-end">
+                      {product.rating ? (
+                        <Rating value={parseFloat(product.rating.toFixed(1))} />
+                      ) : (
+                        <Rating value={0} />
+                      )}
+                    </div>
+                  </div>
+                  <div className="flex justify-end items-center space-x-2 mb-2 mr-5">
+                    {product.price.base > 0 ? (
+                      <Typography
+                        color="blue-gray"
+                        className="font-medium line-through"
+                      >
+                        {formatPrice(product.price.base)}
+                      </Typography>
+                    ) : null}
+                    <Typography color="blue" className="font-medium">
+                      {formatPrice(product.price.discounted)}
+                    </Typography>
+                  </div>
                 </div>
               </div>
             </Link>

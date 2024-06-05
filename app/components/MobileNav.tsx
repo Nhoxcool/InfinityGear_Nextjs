@@ -63,8 +63,8 @@ export function MobileNav({ open, onClose, menuItems }: Props) {
         </div>
 
         <div className="flex justify-center">
-          <div className="md:w-96 w-full md:mx-0 mx-4">
-            <SearchForm submitTo="/search?query=" onClose={onClose} />
+          <div className="md:block w-64">
+            <SearchForm submitTo="/search?query=" />
           </div>
         </div>
 
