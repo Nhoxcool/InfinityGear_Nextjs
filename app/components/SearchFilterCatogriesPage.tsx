@@ -1,6 +1,6 @@
 "use client";
 import { Radio } from "@material-tailwind/react";
-import React, { ReactNode, useState } from "react";
+import React, { ReactNode, useEffect, useState } from "react";
 import Slider from "rc-slider";
 import "rc-slider/assets/index.css";
 import { StarIcon } from "@heroicons/react/24/solid";
@@ -10,17 +10,27 @@ interface Props {
   children: ReactNode;
 }
 
-export default function SearchFilter({ children }: Props) {
+export default function SearchFilterCatogriesPage({ children }: Props) {
   const [rating, setRating] = useState([0, 5]);
-  const [priceFiter, serPriceFilter] = useState("asc");
+  const [priceFilter, setPriceFilter] = useState("asc");
   const [applyRatingFilter, setApplyRatingFilter] = useState(false);
   const router = useRouter();
   const searchParams = useSearchParams();
-  const query = searchParams.get("query");
   const priceSort = searchParams.get("priceSort");
 
-  const lowToHeight = priceSort === "asc";
-  const heigthToLow = priceSort === "desc";
+  const lowToHigh = priceSort === "asc";
+  const highToLow = priceSort === "desc";
+  const [urlPart, setUrlPart] = useState("");
+
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      const path = window.location.pathname;
+      const startIndex = path.indexOf("browse-products");
+      if (startIndex !== -1) {
+        setUrlPart(path.substring(startIndex));
+      }
+    }
+  }, []);
 
   return (
     <form
@@ -30,14 +40,14 @@ export default function SearchFilter({ children }: Props) {
         let url = "";
 
         if (applyRatingFilter) {
-          url = `/search?query=${query}&minRating=${rating[0]}&maxRating=${rating[1]}&priceSort=${priceFiter}`;
+          url = `${urlPart}?minRating=${rating[0]}&maxRating=${rating[1]}&priceSort=${priceFilter}`;
         } else {
-          url = `/search?query=${query}&priceSort=${priceFiter}`;
+          url = `${urlPart}?priceSort=${priceFilter}`;
         }
 
-        router.push(url);
+        router.push(`/${url}`);
       }}
-      className="md:flex py-4 space-y-4 "
+      className="md:flex py-4 space-y-4"
     >
       <div className="md:border-r md:border-b-0 border-b border-gray-700 p-4 md:space-y-4 md:block flex space-x-8 md:space-x-0 sticky top-0 md:h-screen z-10 bg-white">
         <div>
@@ -46,20 +56,20 @@ export default function SearchFilter({ children }: Props) {
             <div>
               <Radio
                 name="type"
-                label="Low to heigh"
-                defaultChecked={lowToHeight}
+                label="Low to high"
+                defaultChecked={lowToHigh}
                 color="blue-gray"
                 className="text-sm"
-                onChange={() => serPriceFilter("asc")}
+                onChange={() => setPriceFilter("asc")}
               />
             </div>
             <div>
               <Radio
                 name="type"
-                label="Heigh to low"
+                label="High to low"
                 color="blue-gray"
-                defaultChecked={heigthToLow}
-                onChange={() => serPriceFilter("desc")}
+                defaultChecked={highToLow}
+                onChange={() => setPriceFilter("desc")}
               />
             </div>
           </div>
@@ -95,10 +105,7 @@ export default function SearchFilter({ children }: Props) {
         </div>
 
         <div>
-          <button
-            type="submit"
-            className="text-blue-gray-600 text-center w-full p-1 border rounded mt-6"
-          >
+          <button className="text-blue-gray-600 text-center w-full p-1 border rounded mt-6">
             Apply Filter
           </button>
           <button
@@ -106,7 +113,7 @@ export default function SearchFilter({ children }: Props) {
               setApplyRatingFilter(false);
               setRating([0, 5]);
               router.refresh();
-              router.push("/search?query=" + query);
+              router.push(`/${urlPart}`);
             }}
             type="button"
             className="text-blue-gray-600 text-center w-full p-1 border rounded mt-6"

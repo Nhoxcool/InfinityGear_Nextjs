@@ -18,21 +18,23 @@ import { toast } from "react-toastify";
 import { useTransition } from "react";
 import Rating from "./Rating";
 
-interface Props {
-  product: {
-    id: string;
-    title: string;
-    description: string;
-    category: string;
-    brand: string;
-    thumbnail: string;
-    rating?: number;
-    sale: number;
-    price: {
-      base: number;
-      discounted: number;
-    };
+export interface Product {
+  id: string;
+  title: string;
+  description: string;
+  category: string;
+  brand: string;
+  thumbnail: string;
+  rating?: number;
+  sale: number;
+  price: {
+    base: number;
+    discounted: number;
   };
+}
+
+interface Props {
+  product: Product;
 }
 
 export default function ProductCard({ product }: Props) {

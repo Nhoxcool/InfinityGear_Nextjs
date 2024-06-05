@@ -89,23 +89,25 @@ const fetchSimilarProducts = async (productId: string) => {
     .sort({ rating: -1 })
     .limit(10);
 
-  return similarProducts.map(({ _id, thumbnail, title, price, sale }) => {
-    return {
-      id: _id.toString(),
-      title,
-      thumbnail: thumbnail.url,
-      price: {
-        base: price.base,
-        discounted: price.discounted,
-      },
-      sale,
-    };
-  });
+  return similarProducts.map(
+    ({ _id, thumbnail, title, price, sale, rating }) => {
+      return {
+        id: _id.toString(),
+        title,
+        thumbnail: thumbnail.url,
+        price: {
+          base: price.base,
+          discounted: price.discounted,
+        },
+        sale,
+        rating,
+      };
+    }
+  );
 };
 
 const fetchRecentProduct = async (
-  userId: string,
-  currentProductId: string
+  userId: string
 ): Promise<
   {
     id: string;
@@ -116,6 +118,7 @@ const fetchRecentProduct = async (
       discounted: number;
     };
     sale: number;
+    rating: number;
   }[]
 > => {
   await startDb();
@@ -152,6 +155,7 @@ const fetchRecentProduct = async (
           discounted: recentProduct.price.discounted || 0,
         },
         sale: recentProduct.sale || 0,
+        rating: recentProduct.rating || 0,
       };
     })
   );
@@ -172,7 +176,7 @@ export default async function Product({ params }: Props) {
   const similarProducts = await fetchSimilarProducts(productId);
 
   const session = await auth();
-  const recentProducts = await fetchRecentProduct(session.user.id, productId);
+  const recentProducts = await fetchRecentProduct(session.user.id);
 
   return (
     <div className="p-4">
