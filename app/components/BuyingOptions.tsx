@@ -8,12 +8,14 @@ import useAuth from "../hooks/useAuth";
 import { toast } from "react-toastify";
 import { HeartIcon } from "@heroicons/react/24/outline";
 import { HeartIcon as HeartIconSolid } from "@heroicons/react/24/solid";
+import Wishlist from "../ui/Wishlist";
 
 interface Props {
   wishlist?: boolean;
+  outOfstock: boolean;
 }
 
-export default function BuyingOptions({ wishlist }: Props) {
+export default function BuyingOptions({ wishlist, outOfstock }: Props) {
   const [quantity, setQuantity] = useState(1);
   const [isPending, startTransition] = useTransition();
   const { product } = useParams();
@@ -47,7 +49,7 @@ export default function BuyingOptions({ wishlist }: Props) {
     router.refresh();
   };
 
-  const updateWishlist = async (wishlist?: boolean) => {
+  const updateWishlist = async () => {
     if (!productId) return;
 
     if (!loggedIn) return router.push("/auth/signin");
@@ -65,25 +67,32 @@ export default function BuyingOptions({ wishlist }: Props) {
 
   return (
     <div className="flex items-center space-x-2">
-      <CartCountUpdater
-        onDecrement={handleDecrement}
-        onIncrement={handleIncrement}
-        value={quantity}
-      />
+      {outOfstock ? (
+        <div className="uppercase text-gray-700">Out of stock </div>
+      ) : (
+        <>
+          {" "}
+          <CartCountUpdater
+            onDecrement={handleDecrement}
+            onIncrement={handleIncrement}
+            value={quantity}
+          />
+          <Button
+            onClick={() => {
+              startTransition(async () => await addToCart());
+            }}
+            variant="text"
+            color="blue"
+            disabled={isPending}
+          >
+            Add to Cart
+          </Button>
+          <Button color="amber" className="rounded-full">
+            Buy Now
+          </Button>
+        </>
+      )}
 
-      <Button
-        onClick={() => {
-          startTransition(async () => await addToCart());
-        }}
-        variant="text"
-        color="blue"
-        disabled={isPending}
-      >
-        Add to Cart
-      </Button>
-      <Button color="amber" className="rounded-full">
-        Buy Now
-      </Button>
       <Button
         onClick={() => {
           startTransition(async () => await updateWishlist());
@@ -92,11 +101,7 @@ export default function BuyingOptions({ wishlist }: Props) {
         color="blue"
         disabled={isPending}
       >
-        {wishlist ? (
-          <HeartIconSolid className="w-6 h-6 text-red-500" />
-        ) : (
-          <HeartIcon className="w-6 h-6" />
-        )}
+        <Wishlist isActive={wishlist} />
       </Button>
     </div>
   );
