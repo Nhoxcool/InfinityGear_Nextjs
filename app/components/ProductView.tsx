@@ -15,6 +15,7 @@ interface Props {
   category: string;
   rating: number;
   outOfstock: boolean;
+  isWishlist?: boolean;
 }
 
 export default function ProductView({
@@ -28,6 +29,7 @@ export default function ProductView({
   category,
   rating,
   outOfstock,
+  isWishlist,
 }: Props) {
   return (
     <div className="flex lg:flex-row flex-col md:gap-4 gap-2">
@@ -76,7 +78,7 @@ export default function ProductView({
           {outOfstock ? (
             <div className="uppercase text-gray-700">Out of stock </div>
           ) : (
-            <BuyingOptions />
+            <BuyingOptions wishlist={isWishlist} />
           )}
         </div>
       </div>

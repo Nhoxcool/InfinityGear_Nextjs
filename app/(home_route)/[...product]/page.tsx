@@ -7,6 +7,7 @@ import startDb from "@/app/lib/db";
 import ProductModel from "@/app/models/ProductModel";
 import HistoryModel, { updateOrCreateHistory } from "@/app/models/historyModel";
 import ReviewModel from "@/app/models/reviewModel";
+import WishlistModel from "@/app/models/wishlistModel";
 import categories from "@/app/utils/categories";
 import { auth } from "@/auth";
 import { rating } from "@material-tailwind/react";
@@ -28,9 +29,17 @@ const fetchProduct = async (productId: string) => {
   const product = await ProductModel.findById(productId);
   if (!product) return redirect("/404");
 
+  let isWishlist = false;
+
   const session = await auth();
-  if (session?.user)
+  if (session?.user) {
     await updateOrCreateHistory(session.user.id, product._id.toString());
+    const wishlist = await WishlistModel.findOne({
+      user: session.user.id,
+      products: product._id,
+    });
+    isWishlist = wishlist ? true : false;
+  }
 
   return JSON.stringify({
     id: product._id.toString(),
@@ -45,6 +54,7 @@ const fetchProduct = async (productId: string) => {
     sale: product.sale,
     rating: product.rating,
     outOfstock: product.quantity <= 0,
+    isWishlist,
   });
 };
 
@@ -191,6 +201,7 @@ export default async function Product({ params }: Props) {
         category={productInfo.category}
         rating={productInfo.rating}
         outOfstock={productInfo.outOfstock}
+        isWishlist={productInfo.isWishlist}
       />
 
       {(similarProducts ?? []).length > 0 ? (

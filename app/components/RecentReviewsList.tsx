@@ -32,16 +32,15 @@ const RecentReviewsList = ({ reviews }: Props) => {
           return (
             <div key={review.id}>
               <div className="flex space-x-1">
-                <div className="w-[50px] h-[100px]">
+                <div className="relative w-20 h-20 flex-non">
                   <Image
                     src={review.product.thumbnail}
-                    width={50}
-                    height={50}
+                    layout="fill"
                     objectFit="contain"
                     alt={review.product.title}
                   />
                 </div>
-                <div>
+                <div className="py-4 px-2">
                   <p className="line-clamp-1">{review.product.title}</p>
                   <div className="flex items-center space-x-1">
                     <ReviewStars rating={review.rating} />

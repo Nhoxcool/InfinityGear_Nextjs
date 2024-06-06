@@ -6,8 +6,14 @@ import CartCountUpdater from "@components/CartCountUpdater";
 import { useParams, useRouter } from "next/navigation";
 import useAuth from "../hooks/useAuth";
 import { toast } from "react-toastify";
+import { HeartIcon } from "@heroicons/react/24/outline";
+import { HeartIcon as HeartIconSolid } from "@heroicons/react/24/solid";
 
-export default function BuyingOptions() {
+interface Props {
+  wishlist?: boolean;
+}
+
+export default function BuyingOptions({ wishlist }: Props) {
   const [quantity, setQuantity] = useState(1);
   const [isPending, startTransition] = useTransition();
   const { product } = useParams();
@@ -41,6 +47,22 @@ export default function BuyingOptions() {
     router.refresh();
   };
 
+  const updateWishlist = async (wishlist?: boolean) => {
+    if (!productId) return;
+
+    if (!loggedIn) return router.push("/auth/signin");
+
+    const res = await fetch("/api/product/wishlist", {
+      method: "POST",
+      body: JSON.stringify({ productId }),
+    });
+
+    const { error } = await res.json();
+    if (!res.ok && error) toast.error(error);
+
+    router.refresh();
+  };
+
   return (
     <div className="flex items-center space-x-2">
       <CartCountUpdater
@@ -61,6 +83,20 @@ export default function BuyingOptions() {
       </Button>
       <Button color="amber" className="rounded-full">
         Buy Now
+      </Button>
+      <Button
+        onClick={() => {
+          startTransition(async () => await updateWishlist());
+        }}
+        variant="text"
+        color="blue"
+        disabled={isPending}
+      >
+        {wishlist ? (
+          <HeartIconSolid className="w-6 h-6 text-red-500" />
+        ) : (
+          <HeartIcon className="w-6 h-6" />
+        )}
       </Button>
     </div>
   );
