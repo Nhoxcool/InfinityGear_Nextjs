@@ -37,6 +37,10 @@ export default async function Order() {
   }
   return (
     <div>
+      <div className="mb-4 py-4">
+        <h1 className="text-2xl font-semibold">Your Order Details</h1>
+        <hr />
+      </div>
       <OrderListPublic orders={JSON.parse(result)} />
     </div>
   );

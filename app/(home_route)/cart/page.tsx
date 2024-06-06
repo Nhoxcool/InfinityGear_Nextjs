@@ -82,11 +82,17 @@ export default async function Cart() {
     );
 
   return (
-    <CartItems
-      cartTotal={cart.totalPrice}
-      cartId={cart.id}
-      products={cart.products}
-      totalQty={cart.totalQty}
-    />
+    <div className="py-4">
+      <div className="mb-4">
+        <h1 className="text-2xl font-semibold">Your Cart Details</h1>
+        <hr />
+      </div>
+      <CartItems
+        cartTotal={cart.totalPrice}
+        cartId={cart.id}
+        products={cart.products}
+        totalQty={cart.totalQty}
+      />
+    </div>
   );
 }

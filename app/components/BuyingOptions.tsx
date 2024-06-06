@@ -28,7 +28,7 @@ export default function BuyingOptions({ wishlist, outOfstock }: Props) {
   };
 
   const handleDecrement = () => {
-    if (quantity === 0) return;
+    if (quantity === 1) return;
     setQuantity((prevCount) => prevCount - 1);
   };
 
