@@ -111,7 +111,7 @@ export default async function Home() {
           <h2 className="text-2xl font-bold mb-4">Laptop WorkStation</h2>
           <Link
             className="text-black underline hover:text-blue-800 text-lg"
-            href="/all-products"
+            href="/browse-products/Laptop"
           >
             Find More
           </Link>

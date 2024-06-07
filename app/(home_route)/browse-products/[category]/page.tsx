@@ -36,10 +36,8 @@ const fetchProductsByCategory = async (
   const { maxRating, minRating, priceSort } = options;
   await startDb();
 
-  console.log(category), console.log(options);
-
   const filter: FilterQuery<ProductDocument> = {
-    category: { $regex: category, $options: "i" },
+    category: category,
   };
 
   if (typeof minRating === "number" && typeof maxRating === "number") {
