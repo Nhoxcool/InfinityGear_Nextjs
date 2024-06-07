@@ -52,7 +52,7 @@
     "**/*.ts",
     "**/*.tsx",
     ".next/types/**/*.ts"
-  ],
+, "app/components/layout.js", "app/components/crisp.js"  ],
   "exclude": [
     "node_modules"
   ]
