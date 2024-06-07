@@ -21,7 +21,7 @@ interface Product {
 }
 
 interface Props {
-  products: Product[];
+  products?: Product[];
 }
 
 export default function RecentProductLists({ products }: Props) {
@@ -31,58 +31,64 @@ export default function RecentProductLists({ products }: Props) {
         Recent Products
       </h1>
       <HorizontalMenu>
-        {products.map((product) => {
-          return (
-            <Link href={`/${product.title}/${product.id}`} key={product.id}>
-              <div className="w-[200px] space-y-2 mr-11">
-                <CardHeader
-                  shadow={false}
-                  floated={false}
-                  className="relative w-full aspect-square m-0 overflow-hidden"
-                >
-                  <Image
-                    src={product.thumbnail}
-                    alt={product.title}
-                    fill
-                    objectFit="contain"
-                  />
-                  {product.price.base > 0 ? (
-                    <div className="absolute right-0 p-2">
-                      <Chip color="red" value={`${product.sale}% off`} />
-                    </div>
-                  ) : null}
-                </CardHeader>
-                <div>
-                  <div className="mb-2">
-                    <h3 className="line-clamp-1 font-medium text-blue-gray-800">
-                      {truncate(product.title, 50)}
-                    </h3>
-                    <div className="flex justify-end">
-                      {product.rating ? (
-                        <Rating value={parseFloat(product.rating.toFixed(1))} />
-                      ) : (
-                        <Rating value={0} />
-                      )}
-                    </div>
-                  </div>
-                  <div className="flex justify-end items-center space-x-2 mb-2 mr-5">
+        {products ? (
+          products.map((product) => {
+            return (
+              <Link href={`/${product.title}/${product.id}`} key={product.id}>
+                <div className="w-[200px] space-y-2 mr-11">
+                  <CardHeader
+                    shadow={false}
+                    floated={false}
+                    className="relative w-full aspect-square m-0 overflow-hidden"
+                  >
+                    <Image
+                      src={product.thumbnail}
+                      alt={product.title}
+                      fill
+                      objectFit="contain"
+                    />
                     {product.price.base > 0 ? (
-                      <Typography
-                        color="blue-gray"
-                        className="font-medium line-through"
-                      >
-                        {formatPrice(product.price.base)}
-                      </Typography>
+                      <div className="absolute right-0 p-2">
+                        <Chip color="red" value={`${product.sale}% off`} />
+                      </div>
                     ) : null}
-                    <Typography color="blue" className="font-medium">
-                      {formatPrice(product.price.discounted)}
-                    </Typography>
+                  </CardHeader>
+                  <div>
+                    <div className="mb-2">
+                      <h3 className="line-clamp-1 font-medium text-blue-gray-800">
+                        {truncate(product.title, 50)}
+                      </h3>
+                      <div className="flex justify-end">
+                        {product.rating ? (
+                          <Rating
+                            value={parseFloat(product.rating.toFixed(1))}
+                          />
+                        ) : (
+                          <Rating value={0} />
+                        )}
+                      </div>
+                    </div>
+                    <div className="flex justify-end items-center space-x-2 mb-2 mr-5">
+                      {product.price.base > 0 ? (
+                        <Typography
+                          color="blue-gray"
+                          className="font-medium line-through"
+                        >
+                          {formatPrice(product.price.base)}
+                        </Typography>
+                      ) : null}
+                      <Typography color="blue" className="font-medium">
+                        {formatPrice(product.price.discounted)}
+                      </Typography>
+                    </div>
                   </div>
                 </div>
-              </div>
-            </Link>
-          );
-        })}
+              </Link>
+            );
+          })
+        ) : (
+          <div></div>
+        )}
       </HorizontalMenu>
     </div>
   );
