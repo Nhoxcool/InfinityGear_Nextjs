@@ -56,7 +56,7 @@ export default function SearchFilter({ children }: Props) {
             <div>
               <Radio
                 name="type"
-                label="Heigh to low"
+                label="High to low"
                 color="blue-gray"
                 defaultChecked={heigthToLow}
                 onChange={() => serPriceFilter("desc")}
