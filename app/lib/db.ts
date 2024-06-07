@@ -2,7 +2,7 @@ import mongoose from "mongoose";
 
 let connection: typeof mongoose;
 
-const url = process.env.DB_URL!;
+const url = process.env.DB_URL as string;
 const startDb = async () => {
   try {
     if (!connection) {

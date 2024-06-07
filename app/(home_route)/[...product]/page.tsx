@@ -186,7 +186,13 @@ export default async function Product({ params }: Props) {
   const similarProducts = await fetchSimilarProducts(productId);
 
   const session = await auth();
-  const recentProducts = await fetchRecentProduct(session.user.id);
+  let recentProducts;
+
+  if (session) {
+    recentProducts = await fetchRecentProduct(session.user.id);
+  } else {
+    null;
+  }
 
   return (
     <div className="p-4">
