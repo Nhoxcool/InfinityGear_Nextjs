@@ -19,6 +19,7 @@ export interface LatestProduct {
     discounted: number;
   };
   sale: number;
+  quantity: number;
 }
 [];
 
@@ -37,6 +38,7 @@ const fetchLatestProducts = async () => {
       price: product.price,
       sale: product.sale,
       rating: product.rating,
+      quantity: product.quantity,
     };
   });
 
@@ -60,6 +62,7 @@ const fetchLaptopProducts = async () => {
       price: product.price,
       sale: product.sale,
       rating: product.rating,
+      quantity: product.quantity,
     };
   });
 

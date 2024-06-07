@@ -21,6 +21,7 @@ interface LatestProduct {
     discounted: number;
   };
   sale: number;
+  quantity: number;
 }
 
 type Options = {
@@ -62,6 +63,7 @@ const fetchProductsByCategory = async (
       price: product.price,
       sale: product.sale,
       rating: product.rating,
+      quantity: product.quantity,
     };
   });
 

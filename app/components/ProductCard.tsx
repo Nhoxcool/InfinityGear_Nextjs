@@ -31,6 +31,7 @@ export interface Product {
     base: number;
     discounted: number;
   };
+  quantity: number;
 }
 
 interface Props {
@@ -124,28 +125,41 @@ export default function ProductCard({ product }: Props) {
         </CardBody>
       </Link>
       <CardFooter className="pt-0 space-y-4">
-        <Button
-          ripple={false}
-          fullWidth={true}
-          className="bg-blue-gray-900/10 text-blue-gray-900 shadow-none hover:shadow-none hover:scale-105 focus:shadow-none focus:scale-105 active:scale-100"
-          onClick={() => {
-            startTransition(async () => await addToCart());
-          }}
-          disabled={isPending}
-        >
-          Add to Cart
-        </Button>
-        <Button
-          disabled={isPending}
-          ripple={false}
-          fullWidth={true}
-          onClick={() => {
-            startTransition(async () => await handleCheckout());
-          }}
-          className="bg-blue-400 text-white shadow-none hover:shadow-none hover:scale-105 focus:shadow-none focus:scale-105 active:scale-100"
-        >
-          Buy Now
-        </Button>
+        {product.quantity > 0 ? (
+          <>
+            <Button
+              ripple={false}
+              fullWidth={true}
+              className="bg-blue-gray-900/10 text-blue-gray-900 shadow-none hover:shadow-none hover:scale-105 focus:shadow-none focus:scale-105 active:scale-100"
+              onClick={() => {
+                startTransition(async () => await addToCart());
+              }}
+              disabled={isPending}
+            >
+              Add to Cart
+            </Button>
+            <Button
+              disabled={isPending}
+              ripple={false}
+              fullWidth={true}
+              onClick={() => {
+                startTransition(async () => await handleCheckout());
+              }}
+              className="bg-blue-400 text-white shadow-none hover:shadow-none hover:scale-105 focus:shadow-none focus:scale-105 active:scale-100"
+            >
+              Buy Now
+            </Button>{" "}
+          </>
+        ) : (
+          <>
+            <Button
+              disabled={true}
+              className=" mt-14 ml-5 shadow-none hover:shadow-none hover:scale-105 focus:shadow-none focus:scale-105 active:scale-100"
+            >
+              Sold Out
+            </Button>
+          </>
+        )}
       </CardFooter>
     </Card>
   );
