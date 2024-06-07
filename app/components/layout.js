@@ -7,11 +7,9 @@ const CrispWithNoSSR = dynamic(() => import("./crisp"), {
 
 export default function RootLayout({ children }) {
   return (
-    <html lang="en">
-      <body>
-        <CrispWithNoSSR />
-        {children}
-      </body>
-    </html>
+    <>
+      <CrispWithNoSSR />
+      {children}
+    </>
   );
 }

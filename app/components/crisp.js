@@ -5,10 +5,8 @@ import { Crisp } from "crisp-sdk-web";
 
 const CrispChat = () => {
   useEffect(() => {
-    Crisp.configure(
-      (window.CRISP_WEBSITE_ID = "b6883c1e-efbb-4ed1-87ca-b1eda6e561a3")
-    );
-  });
+    Crisp.configure("b6883c1e-efbb-4ed1-87ca-b1eda6e561a3");
+  }, []); // Ensure this runs only once on mount
 
   return null;
 };

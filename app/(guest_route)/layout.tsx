@@ -3,6 +3,7 @@ import { redirect } from "next/navigation";
 import React, { ReactNode } from "react";
 import Navbar from "../components/navbar";
 import Footer from "../components/footer";
+import RootLayout from "../components/layout";
 
 interface Props {
   children: ReactNode;
@@ -14,7 +15,7 @@ export default async function Guestayout({ children }: Props) {
   return (
     <div>
       <Navbar />
-      {children}
+      <RootLayout>{children}</RootLayout>
       <Footer />
     </div>
   );
