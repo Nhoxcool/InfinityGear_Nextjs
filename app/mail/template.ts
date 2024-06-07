@@ -332,7 +332,7 @@ export const generateTemplate = (options: Options) => {
                                         >
                                           <img
                                             alt="Company Logo"
-                                            src="${logo}"
+                                            src="$  {logo}"
                                             style="
                                               display: block;
                                               height: 250px;

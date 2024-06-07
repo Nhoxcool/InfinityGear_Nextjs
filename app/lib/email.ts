@@ -73,16 +73,14 @@ const sendEmailVerificationLink = (profile: profile, linkUrl: string) => {
   client.send({
     from: sender,
     to: recipients,
-    subject: "Verify Your Email!",
-    text: generateTemplate({
-      title: "Comfirm your email address",
-      message: message,
-      logo: "cid:logo",
-      banner: "cid:verify",
+    template_uuid: "312b53db-69b9-427e-b214-6c8044fa493e",
+    template_variables: {
+      subject: "Verify Your Email!",
+      user_name: profile.name,
+      messege: message,
       link: linkUrl,
-      btnTitle: "Verify your email",
-    }),
-    category: "Email verification",
+      btn_title: "Click here to verify your email",
+    },
   });
 };
 
@@ -126,16 +124,12 @@ const sendForgetPasswordLink = (profile: profile, linkUrl: string) => {
   client.send({
     from: sender,
     to: recipients,
-    subject: "Verify Your Email!",
-    text: generateTemplate({
-      title: "Reset your password",
-      message: message,
-      logo: "cid:logo",
-      banner: "cid:forget",
+    template_uuid: "aef3a71e-b150-4c5c-9e5a-c7667e74324f",
+    template_variables: {
+      user_email: profile.email,
       link: linkUrl,
-      btnTitle: "Reset your password",
-    }),
-    category: "Email verification",
+      btn_title: "Reset Password",
+    },
   });
 };
 
@@ -178,16 +172,13 @@ const sendUpdatePasswordComfirmation = (profile: profile) => {
   client.send({
     from: sender,
     to: recipients,
-    subject: "Verify Your Email!",
-    text: generateTemplate({
-      title: "Successfully changed your password",
-      message: message,
-      logo: "cid:logo",
-      banner: "cid:confirm",
-      link: "/",
-      btnTitle: "Login now",
-    }),
-    category: "Email verification",
+    template_uuid: "9bcf3737-d069-4ea5-b314-ad91d54de044",
+    template_variables: {
+      user_name: profile.email,
+      messege: message,
+      link: process.env.SIGN_IN_URL!,
+      btn_title: "Sign in",
+    },
   });
 };
 

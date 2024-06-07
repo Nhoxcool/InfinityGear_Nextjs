@@ -17,7 +17,7 @@ const authConfig: NextAuthConfig = {
         const { email, password } = credentials as SignInCredentials;
 
         const { user, error } = await fetch(
-          "http://localhost:4000/api/users/signin",
+          process.env.API_SIGN_IN_ENDPOINT!,
           {
             method: "POST",
             body: JSON.stringify({ email, password }),
