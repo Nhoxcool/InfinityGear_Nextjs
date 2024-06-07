@@ -43,6 +43,29 @@ const fetchLatestProducts = async () => {
   return JSON.stringify(productList);
 };
 
+const fetchLaptopProducts = async () => {
+  await startDb();
+  const products = await ProductModel.find({ category: "Laptop" })
+    .sort("-createdAt")
+    .limit(20);
+
+  const productList = products.map((product) => {
+    return {
+      id: product._id.toString(),
+      title: product.title,
+      description: product.description,
+      category: product.category,
+      brand: product.brand,
+      thumbnail: product.thumbnail.url,
+      price: product.price,
+      sale: product.sale,
+      rating: product.rating,
+    };
+  });
+
+  return JSON.stringify(productList);
+};
+
 const fetchFeaturedProducts = async () => {
   await startDb();
   const products = await FeaturedProductModel.find().sort("-createdAt");
@@ -62,6 +85,8 @@ export default async function Home() {
   const latestProducts = await fetchLatestProducts();
   const parsedProducts = JSON.parse(latestProducts) as LatestProduct[];
   const featuredProduct = await fetchFeaturedProducts();
+  const laptopProducts = await fetchLaptopProducts();
+  const parsedProducts2 = JSON.parse(laptopProducts) as LatestProduct[];
 
   return (
     <div className="py-4 space-y-4">
@@ -72,13 +97,27 @@ export default async function Home() {
           <h2 className="text-2xl font-bold mb-4">NewProduct</h2>
           <Link
             className="text-black underline hover:text-blue-800 text-lg"
-            href="/all-products"
+            href="/all-product"
           >
             Find More
           </Link>
         </div>
         <div className=" custom-slider min-h-[300px]">
           <ProductSlider products={parsedProducts} />
+        </div>
+      </div>
+      <div className="relative mt-5">
+        <div className="flex justify-between">
+          <h2 className="text-2xl font-bold mb-4">Laptop WorkStation</h2>
+          <Link
+            className="text-black underline hover:text-blue-800 text-lg"
+            href="/all-products"
+          >
+            Find More
+          </Link>
+        </div>
+        <div className=" custom-slider min-h-[300px]">
+          <ProductSlider products={parsedProducts2} />
         </div>
       </div>
     </div>
