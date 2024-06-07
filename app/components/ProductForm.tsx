@@ -15,8 +15,8 @@ import React, {
 import { PlusIcon, TrashIcon } from "@heroicons/react/24/outline";
 import ImageSelector from "@components/ImageSelector";
 import { NewBrand, NewProductInfo } from "../types";
-import { toast } from "react-toastify";
 import categories from "../utils/categories";
+import { fetchBrands } from "../(admin)/products/action";
 
 interface Props {
   initialValue?: InitialValue;
@@ -65,18 +65,12 @@ export default function ProductForm(props: Props) {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await fetch("/api/products/brands", {
-          method: "GET",
-        });
-        if (response.ok) {
-          const data = await response.json();
-          console.log("Fetched brands data:", data);
-          setBrands(data.brandes);
-        } else {
-          toast.error("Failed to get brand data");
-        }
+        const brands = await fetchBrands();
+        console.log(brands);
+        setBrands(brands);
       } catch (error) {
-        toast.error("Error fetching brand data");
+        console.error("Error while fetching brands: ", (error as any).message);
+        throw error;
       }
     };
 

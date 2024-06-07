@@ -1,5 +1,7 @@
+import { Brand } from "@/app/components/BrandTable";
 import ProductTable, { Product } from "@/app/components/ProductTable";
 import startDb from "@/app/lib/db";
+import BrandModel from "@/app/models/BrandeModel";
 import ProductModel from "@/app/models/ProductModel";
 import { redirect } from "next/navigation";
 import React from "react";
@@ -31,6 +33,7 @@ const fetchProducts = async (
     };
   });
 };
+
 
 const PRODUCTS_PER_PAGE = 10;
 

@@ -6,7 +6,7 @@ import { newProductInfoSchema } from "@/app/utils/validationSchema";
 import React from "react";
 import { toast } from "react-toastify";
 import { ValidationError } from "yup";
-import { checkProduct, createProduct } from "../action";
+import { checkProduct, createProduct, fetchBrands } from "../action";
 import { useRouter } from "next/navigation";
 export default function Create() {
   const router = useRouter();

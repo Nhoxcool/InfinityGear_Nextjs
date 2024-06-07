@@ -14,6 +14,7 @@ import { useRouter } from "next/navigation";
 import Link from "next/link";
 import SearchForm from "@components/SearchForm";
 import DeleteProductModal from "./DeleteProductModal";
+import { Brand } from "./BrandTable";
 
 export interface Product {
   id: string;

@@ -1,5 +1,6 @@
 "use server";
 
+import { Brand } from "@/app/components/BrandTable";
 import startDb from "@/app/lib/db";
 import BrandModel, { NewBrand } from "@/app/models/BrandeModel";
 import ProductModel, { NewProduct } from "@/app/models/ProductModel";
@@ -129,4 +130,24 @@ export const deleteProduct = async (id: string) => {
     console.log("Error while deleting product, ", (error as any).message);
     throw error;
   }
+};
+
+type BrandResponse2 = {
+  _id: string;
+  brand: string;
+  category: string;
+  logo: string; // Adjust logo type to a direct string
+};
+
+export const fetchBrands = async (): Promise<Brand[]> => {
+  await startDb();
+  const brands = await BrandModel.find();
+  return brands.map((brand) => {
+    return {
+      id: brand._id.toString(),
+      category: brand.category,
+      brand: brand.brand,
+      logo: brand.logo.url,
+    };
+  });
 };
