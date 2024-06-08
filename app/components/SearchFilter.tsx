@@ -46,7 +46,7 @@ export default function SearchFilter({ children }: Props) {
             <div>
               <Radio
                 name="type"
-                label="Low to heigh"
+                label="Low to high"
                 defaultChecked={lowToHeight}
                 color="blue-gray"
                 className="text-sm"
