@@ -49,6 +49,7 @@ const searchProducts = async (options: options) => {
       price: product.price,
       sale: product.sale,
       rating: product.rating,
+      quantity: product.quantity,
     };
   });
 
